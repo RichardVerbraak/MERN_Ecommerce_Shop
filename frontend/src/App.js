@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { Container } from 'react-bootstrap'
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 const App = () => {
 	return (
-		<div>
-			<h1>Welcome to ProShop</h1>
-		</div>
+		<Fragment>
+			<Header />
+			<main className='py-3'>
+				<Container>
+					<h1>Welcome to ProShop</h1>
+				</Container>
+			</main>
+			<Footer />
+		</Fragment>
 	)
 }
 
