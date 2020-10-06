@@ -5,8 +5,7 @@ import Rating from '../components/Rating'
 import products from '../products'
 
 const ProductScreen = ({ match }) => {
-	console.log(match)
-
+	// First finds the product that matches the id in the url params, then renders the page with that products details
 	const product = products.find((product) => {
 		return product._id === match.params.id
 	})
