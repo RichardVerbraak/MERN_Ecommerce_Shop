@@ -1,11 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
-import products from '../products'
+import axios from 'axios'
 
 const HomeScreen = () => {
+	const [products, setProducts] = useState([])
+
+	// I'd normally use fetch API but this also works
+	useEffect(() => {
+		const getData = async () => {
+			const res = await axios.get('/api/products')
+
+			console.log(res.data)
+			setProducts(res.data)
+		}
+		getData()
+	}, [])
+
 	return (
-		<>
+		<Fragment>
 			<h1>Latest Products</h1>
 			<Row>
 				{products.map((product) => {
@@ -16,7 +29,7 @@ const HomeScreen = () => {
 					)
 				})}
 			</Row>
-		</>
+		</Fragment>
 	)
 }
 
