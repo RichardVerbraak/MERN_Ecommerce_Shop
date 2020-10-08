@@ -31,12 +31,15 @@ const importData = async () => {
 			return user.isAdmin === true
 		})
 
-		const adminUser = foundAdmin._id
+		// ID of the admin user
+		const adminUserID = foundAdmin._id
 
+		// Casts (adds) the admin users ID to each product
 		const sampleProducts = products.map((product) => {
-			return { ...product, user: adminUser }
+			return { ...product, user: adminUserID }
 		})
 
+		// Adds the products to the DB
 		await Product.insertMany(sampleProducts)
 
 		console.log('Data imported!'.green.inverse)
@@ -46,6 +49,7 @@ const importData = async () => {
 	}
 }
 
+// Removes all data from the DB
 const deleteData = async () => {
 	try {
 		await Order.deleteMany()
