@@ -8,12 +8,13 @@ import Product from './models/productModel.js'
 import Order from './models/orderModel.js'
 import connectDB from './config/db.js'
 
-// Access to env variables
+// Access to connectDB (function that has access to the Mongo URI env variable)
 dotenv.config()
 
 // Connect to the DB
 connectDB()
 
+// Add dummy data to the DB
 const importData = async () => {
 	try {
 		// Clear everything so you dont import the same data twice (its dummy data anyway )
