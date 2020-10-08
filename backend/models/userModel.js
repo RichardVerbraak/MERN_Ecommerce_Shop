@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 // Created at and updated add could be manually added but also with timestamps set to true
-const userSchema = new mongoose.Schema(
+const userSchema = mongoose.Schema(
 	{
 		name: {
 			type: String,
@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
 		email: {
 			type: String,
 			required: true,
-			unique,
+			unique: true,
 		},
 		password: {
 			type: String,

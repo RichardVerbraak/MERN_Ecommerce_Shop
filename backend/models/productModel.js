@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 // Reviews will be an array that consists of this object (review)
-const reviewSchema = new mongoose.Schema(
+const reviewSchema = mongoose.Schema(
 	{
 		name: { type: String, required: true },
 		rating: { type: Number, required: true },
@@ -10,7 +10,7 @@ const reviewSchema = new mongoose.Schema(
 	{ timestamps: true }
 )
 
-const productSchema = new mongoose.Schema(
+const productSchema = mongoose.Schema(
 	{
 		// Ref creates the relationship between product and user
 		user: {
