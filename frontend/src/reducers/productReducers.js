@@ -1,6 +1,11 @@
 const initialState = {
+	loading: null,
 	products: [],
+	error: null,
 }
+
+// Could use constants (where I place the string like 'PRODUCT_LIST_FAIL' inside of a const variable in another folder and import them here)
+// However I don't mind when they are strings like below
 
 export const productListReducer = (state = initialState, action) => {
 	switch (action.type) {

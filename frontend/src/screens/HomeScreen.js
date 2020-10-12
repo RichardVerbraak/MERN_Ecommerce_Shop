@@ -1,34 +1,55 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useEffect, Fragment } from 'react'
+import { connect } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
-import axios from 'axios'
+import { getProducts } from '../actions/productActions'
 
-const HomeScreen = () => {
-	const [products, setProducts] = useState([])
+const HomeScreen = ({ loading, error, products, getProducts }) => {
+	console.log(products)
 
-	// I'd normally use fetch API but this also works
 	useEffect(() => {
-		const getData = async () => {
-			const res = await axios.get('/api/products')
-			setProducts(res.data)
-		}
-		getData()
+		getProducts()
 	}, [])
 
 	return (
 		<Fragment>
 			<h1>Latest Products</h1>
-			<Row>
-				{products.map((product) => {
-					return (
-						<Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-							<Product product={product} />
-						</Col>
-					)
-				})}
-			</Row>
+			{loading ? (
+				<h2>Loading...</h2>
+			) : error ? (
+				<h3>{error}</h3>
+			) : (
+				<Row>
+					{products.map((product) => {
+						return (
+							<Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+								<Product product={product} />
+							</Col>
+						)
+					})}
+				</Row>
+			)}
 		</Fragment>
 	)
 }
 
-export default HomeScreen
+const mapStateToProps = (state) => {
+	return {
+		loading: state.productList.loading,
+		error: state.productList.error,
+		products: state.productList.products,
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		getProducts: () => dispatch(getProducts()),
+	}
+}
+
+const ConnectedHomeScreen = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(HomeScreen)
+
+export default ConnectedHomeScreen

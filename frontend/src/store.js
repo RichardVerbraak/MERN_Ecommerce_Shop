@@ -4,7 +4,9 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { productListReducer } from './reducers/productReducers'
 
-const reducer = combineReducers({ productListReducer })
+//###!!! DO NOT FORGET TO SPECIFY THE NAME OF THE REDUCER LIKE: state.productList.loading and NOT state.loading
+// When using the connect function with Redux (mapStateToProps etc.)
+const reducer = combineReducers({ productList: productListReducer })
 
 const initialState = {}
 
