@@ -13,7 +13,7 @@ const router = express.Router()
 router.get(
 	'/',
 	asyncHandler(async (req, res) => {
-		// Gets all products
+		// Gets all products (Empty object just gets everything)
 		const products = await Product.find({})
 
 		res.json(products)
