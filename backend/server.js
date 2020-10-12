@@ -13,9 +13,10 @@ const app = express()
 
 app.use('/api/products', productRoutes)
 
-// This function will always run when a request is being made to the server
+// This function will run FIRST when an error is catched by the asyncHandler in the products route
 app.use(notFound)
 
+// Define error handling middleware last after other app.use
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000

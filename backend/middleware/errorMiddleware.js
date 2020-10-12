@@ -11,6 +11,7 @@ const notFound = (req, res, next) => {
 }
 
 // To override the normal error handler behaviour in middleware functions, you have to place the error argument before the req, res args
+// ALWAYS FOUR args even though you dont use some of them
 // In production we don't need to stack trace (backtrack) to where the error came from
 const errorHandler = (err, req, res, next) => {
 	// Sometimes you get status 200 even though there's an error, so this handles that as well
