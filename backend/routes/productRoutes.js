@@ -31,7 +31,8 @@ router.get(
 		if (product) {
 			res.json(product)
 		} else {
-			res.status(404).json({ message: 'No product found with that ID' })
+			res.status(404)
+			throw new Error('No product found with that ID')
 		}
 	})
 )

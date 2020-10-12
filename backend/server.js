@@ -13,6 +13,7 @@ const app = express()
 
 app.use('/api/products', productRoutes)
 
+// This function will always run when a request is being made to the server
 app.use(notFound)
 
 app.use(errorHandler)
