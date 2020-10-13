@@ -4,6 +4,8 @@ import Product from '../models/productModel.js'
 
 const router = express.Router()
 
+// Routes are the sames as controllers, they perform logic based on a certain request like the below routes
+
 // Instead of having a try/catch in every route we use asyncHandler
 // It passes exceptions inside async routes (things outside of the normal expectations aka errors) to your express error handlers
 
