@@ -1,15 +1,20 @@
 import React, { useEffect, Fragment } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
 import { getProducts } from '../actions/productActions'
 
-const HomeScreen = ({ loading, error, products, getProducts }) => {
-	console.log(products)
+// Alternative way with hooks instead of using wrapping in a connect function with mapStateToProps etc.
+const HomeScreen = () => {
+	const dispatch = useDispatch()
+	const productList = useSelector((state) => {
+		return state.productList
+	})
+	const { loading, error, products } = productList
 
 	useEffect(() => {
-		getProducts()
-	}, [])
+		dispatch(getProducts())
+	}, [dispatch])
 
 	return (
 		<Fragment>
@@ -33,23 +38,23 @@ const HomeScreen = ({ loading, error, products, getProducts }) => {
 	)
 }
 
-const mapStateToProps = (state) => {
-	return {
-		loading: state.productList.loading,
-		error: state.productList.error,
-		products: state.productList.products,
-	}
-}
+// const mapStateToProps = (state) => {
+// 	return {
+// 		loading: state.productList.loading,
+// 		error: state.productList.error,
+// 		products: state.productList.products,
+// 	}
+// }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		getProducts: () => dispatch(getProducts()),
-	}
-}
+// const mapDispatchToProps = (dispatch) => {
+// 	return {
+// 		getProducts: () => dispatch(getProducts()),
+// 	}
+// }
 
-const ConnectedHomeScreen = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(HomeScreen)
+// const ConnectedHomeScreen = connect(
+// 	mapStateToProps,
+// 	mapDispatchToProps
+// )(HomeScreen)
 
-export default ConnectedHomeScreen
+export default HomeScreen
