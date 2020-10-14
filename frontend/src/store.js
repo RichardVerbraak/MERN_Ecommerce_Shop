@@ -2,11 +2,17 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
-import { productListReducer } from './reducers/productReducers'
+import {
+	productListReducer,
+	productDetailReducer,
+} from './reducers/productReducers'
 
 //###!!! DO NOT FORGET TO SPECIFY THE NAME OF THE REDUCER LIKE: state.productList.loading and NOT state.loading
 // When using the connect function with Redux (mapStateToProps etc.)
-const reducer = combineReducers({ productList: productListReducer })
+const reducer = combineReducers({
+	productList: productListReducer,
+	productDetails: productDetailReducer,
+})
 
 const initialState = {}
 
