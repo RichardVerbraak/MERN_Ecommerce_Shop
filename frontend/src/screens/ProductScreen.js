@@ -5,7 +5,7 @@ import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { getDetails } from '../actions/productActions'
+import { getProductDetails } from '../actions/productActions'
 
 const ProductScreen = ({ match }) => {
 	const dispatch = useDispatch()
@@ -13,12 +13,11 @@ const ProductScreen = ({ match }) => {
 		return state.productDetails
 	})
 
-	console.log(productDetails)
-
 	const { loading, error, details } = productDetails
 
+	// Pull id from URL and search for that product
 	useEffect(() => {
-		dispatch(getDetails(match.params.id))
+		dispatch(getProductDetails(match.params.id))
 	}, [dispatch])
 
 	return (
