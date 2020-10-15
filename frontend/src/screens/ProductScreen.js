@@ -1,13 +1,17 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { getProductDetails } from '../actions/productActions'
 
+//#! Explanation about the array iterator below component
+
 const ProductScreen = ({ match }) => {
+	const [qty, setQty] = useState(0)
+
 	const dispatch = useDispatch()
 	const productDetails = useSelector((state) => {
 		return state.productDetails
@@ -18,7 +22,7 @@ const ProductScreen = ({ match }) => {
 	// Pull id from URL and search for that product
 	useEffect(() => {
 		dispatch(getProductDetails(match.params.id))
-	}, [dispatch])
+	}, [dispatch, match])
 
 	return (
 		<Fragment>
@@ -71,6 +75,33 @@ const ProductScreen = ({ match }) => {
 										</Col>
 									</Row>
 								</ListGroup.Item>
+
+								{details.countInStock > 0 && (
+									<ListGroup.Item>
+										<Row>
+											<Col>Qty</Col>
+											<Col>
+												<Form.Control
+													as='select'
+													value={qty}
+													onChange={(e) => {
+														setQty(e.target.value)
+													}}
+												>
+													{[...Array(details.countInStock).keys()].map((x) => (
+														<option key={x + 1} value={x + 1}>
+															{x + 1}
+														</option>
+													))}
+													{console.log([Array(details.countInStock)])}
+													{console.log([...Array(details.countInStock)])}
+													{console.log([...Array(details.countInStock).keys()])}
+												</Form.Control>
+											</Col>
+										</Row>
+									</ListGroup.Item>
+								)}
+
 								<ListGroup.Item>
 									<Button
 										className='btn-block'
@@ -88,5 +119,22 @@ const ProductScreen = ({ match }) => {
 		</Fragment>
 	)
 }
+
+////// The goal of this is to create an option component for the total amount of numbers in countInStock (6 options made if the stock has 6)
+
+// 	1. We will hold the values in an array with [], so we can use the array.map method for returning an option each time
+//  2. We create a new array with Array constructor method
+//  3. Passing an argument (needs to be integer between 0 - 232) to the Array will make room for X amount, here it's that many in stock
+//  4. We spread out the array (spreading all the individual arguments/elements out)
+//  5. Since there is now only room in the array but no elements, you'll get [undefined] times how much room you made
+//  6. We use .keys() to populate the array with the indexes of the array, so undefined at the first index (0) becomes 0
+//	7. Now we map over these elements and return an option for each one
+//     where the value is equal to that index but with +1 to account for indexes starting at 0 (if there were 0 we would show Out of Stock not 0)
+
+// {[...Array(details.countInStock).keys()].map((x) => (
+// 	<option key={x + 1} value={x + 1}>
+// 		{x + 1}
+// 	</option>
+// ))}
 
 export default ProductScreen

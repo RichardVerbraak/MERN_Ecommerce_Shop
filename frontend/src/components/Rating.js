@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 // Checks against rating value and adds a star, half-star or empty star if condition is met
 const Rating = ({ value, text, color }) => {
@@ -74,10 +73,10 @@ Rating.defaultProps = {
 	color: '#f8e825',
 }
 
-Rating.propTypes = {
-	value: PropTypes.number.isRequired,
-	text: PropTypes.string.isRequired,
-	color: PropTypes.string,
-}
+// Rating.propTypes = {
+// 	value: PropTypes.number.isRequired,
+// 	text: PropTypes.string.isRequired,
+// 	color: PropTypes.string,
+// }
 
 export default Rating
