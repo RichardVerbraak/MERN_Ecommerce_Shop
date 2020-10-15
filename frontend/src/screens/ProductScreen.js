@@ -9,7 +9,7 @@ import { getProductDetails } from '../actions/productActions'
 
 //#! Explanation about the array iterator below component
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ match, history }) => {
 	const [qty, setQty] = useState(0)
 
 	const dispatch = useDispatch()
@@ -23,6 +23,10 @@ const ProductScreen = ({ match }) => {
 	useEffect(() => {
 		dispatch(getProductDetails(match.params.id))
 	}, [dispatch, match])
+
+	const addToCart = () => {
+		history.push(`/cart/${match.params.id}?qty=${qty}`)
+	}
 
 	return (
 		<Fragment>
@@ -101,6 +105,7 @@ const ProductScreen = ({ match }) => {
 
 								<ListGroup.Item>
 									<Button
+										onClick={addToCart}
 										className='btn-block'
 										type='button'
 										disabled={details.countInStock === 0}
