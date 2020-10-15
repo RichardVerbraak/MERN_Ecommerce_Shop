@@ -93,9 +93,6 @@ const ProductScreen = ({ match }) => {
 															{x + 1}
 														</option>
 													))}
-													{console.log([Array(details.countInStock)])}
-													{console.log([...Array(details.countInStock)])}
-													{console.log([...Array(details.countInStock).keys()])}
 												</Form.Control>
 											</Col>
 										</Row>
