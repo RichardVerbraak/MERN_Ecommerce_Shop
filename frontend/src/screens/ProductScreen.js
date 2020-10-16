@@ -139,4 +139,15 @@ const ProductScreen = ({ match, history }) => {
 // 	</option>
 // ))}
 
+// Don't know why this is different
+// if (details) {
+// 	// Gives rangeError: invalid length
+// 	let notWorkingArray = []
+// 	notWorkingArray.length = details.countInStock
+
+// 	// Does give the array a length set to the count in stock
+// 	let workingArray = Array(details.countInStock)
+// 	console.log(workingArray)
+// }
+
 export default ProductScreen
