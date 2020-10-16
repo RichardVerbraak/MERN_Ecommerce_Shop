@@ -13,19 +13,29 @@ import { cartReducer } from './reducers/cartReducers'
 
 //###!!! DO NOT FORGET TO SPECIFY THE NAME OF THE REDUCER LIKE: state.productList.loading and NOT state.loading
 // When using the connect function with Redux (mapStateToProps etc.)
-const reducer = combineReducers({
+const reducers = combineReducers({
 	productList: productListReducer,
 	productDetails: productDetailReducer,
-	cartList: cartReducer,
+	cart: cartReducer,
 })
 
-const initialState = {}
+const cartItemsFromLocalStorage = localStorage.getItem('cartItems')
+	? JSON.parse(localStorage.getItem('cartItems'))
+	: []
+
+// This is the same as doing state.cart.cartItems: cartItemsFromLocalStorage
+// It's like a global state but here were grabbing only the cart reducer's state
+const initialState = {
+	cart: {
+		cartItems: cartItemsFromLocalStorage,
+	},
+}
 
 // Our array of middleware (which only has thunk atm)
 const middleware = [thunk]
 
 const store = createStore(
-	reducer,
+	reducers,
 	initialState,
 	composeWithDevTools(applyMiddleware(...middleware))
 )
