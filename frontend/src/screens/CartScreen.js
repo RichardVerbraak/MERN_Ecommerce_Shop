@@ -7,15 +7,21 @@ import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 
 const CartScreen = ({ match, location, history }) => {
-	const productID = match.params.id
+	let productID = match.params.id
 
 	// Splits it into an array from ?qty=1 to [?qty=, 1] and then converted to a number data type (was a string before)
 	const qty = location.search ? Number(location.search.split('=')[1]) : 1
 
 	const dispatch = useDispatch()
+	const cart = useSelector((state) => {
+		return state.cart
+	})
+
+	const { cartItems } = cart
 
 	useEffect(() => {
 		if (productID) {
+			console.log(productID)
 			dispatch(addCartItem(productID, qty))
 		}
 	}, [dispatch, productID, qty])
