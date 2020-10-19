@@ -79,7 +79,7 @@ const CartScreen = ({ match, location, history }) => {
 												type='button'
 												variant='light'
 												onClick={() => {
-													removeCartItem(item.product)
+													dispatch(removeCartItem(item.product))
 												}}
 											>
 												<i className='fas fa-trash'></i>
