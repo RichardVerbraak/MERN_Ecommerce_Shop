@@ -24,6 +24,7 @@ const ProductScreen = ({ match, history }) => {
 		dispatch(getProductDetails(match.params.id))
 	}, [dispatch, match])
 
+	// Could also add to cart here imo
 	const addToCart = () => {
 		history.push(`/cart/${match.params.id}?qty=${qty}`)
 	}

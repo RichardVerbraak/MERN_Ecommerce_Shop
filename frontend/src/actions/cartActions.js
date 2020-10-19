@@ -10,7 +10,7 @@ export const addCartItem = (id, qty) => {
 
 		// Save to Redux
 		// Quantity is already coming in from cartScreen
-		// Maybe use {...payload.action, qty} ?
+		// Maybe use {...payload.action, qty} ? (Nevermind, we only need these values not things like brand and reviews)
 		dispatch({
 			type: 'ADD_CART_ITEM',
 			payload: {
