@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
+import jwt from 'jsonwebtoken'
 
 // res.send doesn't work when you send TWO strings like res.send(email, password)
 
@@ -32,4 +33,15 @@ const authUser = asyncHandler(async (req, res) => {
 	}
 })
 
-export { authUser }
+// @desc       	Get user profile
+// @route       GET /api/users/profile
+// @access      Private
+const getUserProfile = asyncHandler(async (req, res) => {
+	const { token } = req.body
+	const { id, iat, exp } = jwt.decode(token)
+	const user = await User.findById(id)
+	console.log(user)
+	res.send(id)
+})
+
+export { authUser, getUserProfile }
