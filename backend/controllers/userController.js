@@ -37,11 +37,21 @@ const authUser = asyncHandler(async (req, res) => {
 // @route       GET /api/users/profile
 // @access      Private
 const getUserProfile = asyncHandler(async (req, res) => {
-	const { token } = req.body
-	const { id, iat, exp } = jwt.decode(token)
-	const user = await User.findById(id)
-	console.log(user)
-	res.send(id)
+	// Dont forget await on the promise
+	const user = await User.findById(req.user._id)
+
+	// Return this info to the logged in user
+	if (user) {
+		res.json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			isAdmin: user.isAdmin,
+		})
+	} else {
+		res.status(404)
+		throw new Error('User not found')
+	}
 })
 
 export { authUser, getUserProfile }
