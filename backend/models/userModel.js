@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema(
 	}
 )
 
+// Matches the password from the User document (model) to the one that was entered and thus came in via the route '/api/users/login'
 // Arrow functions prevent binding 'this' and so the function will not have access to the document and will say password is undefined
 userSchema.methods.matchPassword = async function (enteredPassword) {
 	return await bcrypt.compare(enteredPassword, this.password)

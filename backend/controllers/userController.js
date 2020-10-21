@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
+import generateToken from '../utils/generateToken.js'
 
 // res.send doesn't work when you send TWO strings like res.send(email, password)
 
@@ -14,6 +15,7 @@ const authUser = asyncHandler(async (req, res) => {
 
 	// Check if passwords match (matchPassword is made as a method onto the userModel to keep this file cleaner)
 	// Could've use bcrypt and check in this file as well, which is in my opinion more readable
+	// Could also bring in jwt and sign the token in here
 	const userMatch = await user.matchPassword(password)
 
 	if (user && userMatch) {
@@ -22,7 +24,7 @@ const authUser = asyncHandler(async (req, res) => {
 			name: user.name,
 			email: user.email,
 			isAdmin: user.isAdmin,
-			token: null,
+			token: generateToken(user._id),
 		})
 	} else {
 		res.status(401)
