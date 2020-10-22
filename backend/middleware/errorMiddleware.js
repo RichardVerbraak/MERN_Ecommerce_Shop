@@ -19,6 +19,7 @@ const errorHandler = (err, req, res, next) => {
 
 	// Set the status to the error code we made (convert 200 to 500 for reasons above)
 	res.status(error)
+	console.log(err.message)
 
 	// err.message comes from our custom error handler package (asyncHandler)
 	res.json({

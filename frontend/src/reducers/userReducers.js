@@ -1,7 +1,7 @@
 const initialState = {
 	loading: null,
 	userInfo: {},
-	errors: null,
+	error: null,
 }
 
 export const userLoginReducer = (state = initialState, action) => {
@@ -17,8 +17,8 @@ export const userLoginReducer = (state = initialState, action) => {
 			}
 		case 'USER_LOGIN_FAIL':
 			return {
-				...state,
-				errors: action.payload,
+				loading: false,
+				error: action.payload,
 			}
 		case 'USER_LOGOUT':
 			return {}
