@@ -8,8 +8,11 @@ import {
 	productDetailReducer,
 } from './reducers/productReducers'
 
-// Cart Reducer
+// Cart Reducers
 import { cartReducer } from './reducers/cartReducers'
+
+// User Reducers
+import { userLoginReducer } from './reducers/userReducers'
 
 //###!!! DO NOT FORGET TO SPECIFY THE NAME OF THE REDUCER LIKE: state.productList.loading and NOT state.loading
 // When using the connect function with Redux (mapStateToProps etc.)
@@ -17,17 +20,25 @@ const reducers = combineReducers({
 	productList: productListReducer,
 	productDetails: productDetailReducer,
 	cart: cartReducer,
+	userLogin: userLoginReducer,
 })
 
-const cartItemsFromLocalStorage = localStorage.getItem('cartItems')
+const cartItemsFromStorage = localStorage.getItem('cartItems')
 	? JSON.parse(localStorage.getItem('cartItems'))
 	: []
 
-// This is the same as doing state.cart.cartItems: cartItemsFromLocalStorage
+const userInfoFromStorage = localStorage.getItem('userInfo')
+	? JSON.parse(localStorage.getItem('userInfo'))
+	: null
+
+// This is the same as doing state.cart.cartItems: cartItemsFromStorage
 // It's like a global state but here were grabbing only the cart reducer's state
 const initialState = {
 	cart: {
-		cartItems: cartItemsFromLocalStorage,
+		cartItems: cartItemsFromStorage,
+	},
+	userLogin: {
+		userInfo: userInfoFromStorage,
 	},
 }
 
