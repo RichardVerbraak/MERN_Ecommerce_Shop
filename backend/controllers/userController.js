@@ -19,6 +19,7 @@ const authUser = asyncHandler(async (req, res) => {
 	// Could also bring in jwt and sign the token in here
 	const userMatch = await user.matchPassword(password)
 
+	// Send back the info + a signed token that has the user's ID needed to authenticate on protected routes
 	if (user && userMatch) {
 		res.json({
 			_id: user._id,
@@ -30,6 +31,44 @@ const authUser = asyncHandler(async (req, res) => {
 	} else {
 		res.status(401)
 		throw new Error('Invalid email or password')
+	}
+})
+
+// @desc        Register a new user
+// @route       POST /api/users
+// @access      Public
+const registerUser = asyncHandler(async (req, res) => {
+	const { name, email, password } = req.body
+
+	const userExists = await User.findOne({ email })
+
+	if (userExists) {
+		res.status(400)
+		throw new Error('User already exists')
+	}
+
+	// Create is the same as using .save method
+	// The hashing of the password happens in the user model BEFORE this is sent to the DB
+	// Could also hash it in the controller but Brad chooses not to for clarity
+	const user = await User.create({
+		name,
+		email,
+		password,
+	})
+
+	// Create token upon registering so you're instantly authenticated
+	if (user) {
+		res.status(201)
+		res.json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			isAdmin: user.isAdmin,
+			token: generateToken(user._id),
+		})
+	} else {
+		res.status(400)
+		throw new Error('Invalid user data')
 	}
 })
 
@@ -54,4 +93,4 @@ const getUserProfile = asyncHandler(async (req, res) => {
 	}
 })
 
-export { authUser, getUserProfile }
+export { authUser, getUserProfile, registerUser }

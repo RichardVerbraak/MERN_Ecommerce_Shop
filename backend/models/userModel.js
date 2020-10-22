@@ -34,6 +34,20 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 	return await bcrypt.compare(enteredPassword, this.password)
 }
 
+// Function that encrypts the users password BEFORE (pre) we save to the DB
+// isModified and pre comes from mongoose
+// 1. If we for instance, only updated our name and email, we don't want this to hash/change our password suddenly, then call next to move on
+// 2. Generate a salt, which returns a promise with said salt
+// 3. Set the password to the hashed password, which takes in the plain text password (123456) and salt to hash it
+userSchema.pre('save', async function (next) {
+	if (!this.isModified('password')) {
+		next()
+	}
+
+	const salt = await bcrypt.genSalt(10)
+	this.password = await bcrypt.hash(this.password, salt)
+})
+
 const User = mongoose.model('user', userSchema)
 
 export default User
