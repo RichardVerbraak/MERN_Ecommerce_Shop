@@ -15,13 +15,12 @@ const notFound = (req, res, next) => {
 // In production we don't need to stack trace (backtrack) to where the error came from
 const errorHandler = (err, req, res, next) => {
 	// Sometimes you get status 200 even though there's an error, so this handles that as well
-	const error = res.statusCode === 200 ? 500 : res.statusCode
+	const errorStatus = res.statusCode === 200 ? 500 : res.statusCode
 
 	// Set the status to the error code we made (convert 200 to 500 for reasons above)
-	res.status(error)
-	console.log(err.message)
+	res.status(errorStatus)
 
-	// err.message comes from our custom error handler package (asyncHandler)
+	// err.message comes from our custom error handler (asyncHandler)
 	res.json({
 		message: err.message,
 		stack: process.env.NODE_ENV === 'production' ? null : err.stack,

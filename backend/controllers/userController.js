@@ -14,13 +14,25 @@ const authUser = asyncHandler(async (req, res) => {
 	// Find user by mail
 	const user = await User.findOne({ email })
 
+	// My solution, which gives a different error of: Cannot read property 'matchPassword' of null
+	// This is probably because my if else doesn't even run, the error happens earlier UNLESS I put it inside the if statement
+	// Causing the if clause to fail and then moves on to the else clause
+	// const userMatch = await user.matchPassword(password)
+
+	// if (user && userMatch) {
+	// 	res.json({
+	// 		_id: user._id,
+	// 		name: user.name,
+	// 		email: user.email,
+	// 		isAdmin: user.isAdmin,
+	// 		token: generateToken(user._id),
+	// 	})
+
 	// Check if passwords match (matchPassword is made as a method onto the userModel to keep this file cleaner)
 	// Could've use bcrypt and check in this file as well, which is in my opinion more readable
 	// Could also bring in jwt and sign the token in here
-	const userMatch = await user.matchPassword(password)
-
 	// Send back the info + a signed token that has the user's ID needed to authenticate on protected routes
-	if (user && userMatch) {
+	if (user && (await user.matchPassword(password))) {
 		res.json({
 			_id: user._id,
 			name: user.name,
