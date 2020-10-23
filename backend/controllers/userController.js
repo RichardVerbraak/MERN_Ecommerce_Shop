@@ -1,7 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
-import jwt from 'jsonwebtoken'
 
 // res.send doesn't work when you send TWO strings like res.send(email, password)
 
@@ -19,16 +18,7 @@ const authUser = asyncHandler(async (req, res) => {
 	// Causing the if clause to fail and then moves on to the else clause
 	// const userMatch = await user.matchPassword(password)
 
-	// if (user && userMatch) {
-	// 	res.json({
-	// 		_id: user._id,
-	// 		name: user.name,
-	// 		email: user.email,
-	// 		isAdmin: user.isAdmin,
-	// 		token: generateToken(user._id),
-	// 	})
-
-	// Check if passwords match (matchPassword is made as a method onto the userModel to keep this file cleaner)
+	// Check if passwords match (matchPassword is a method made onto the userModel just to keep this file cleaner)
 	// Could've use bcrypt and check in this file as well, which is in my opinion more readable
 	// Could also bring in jwt and sign the token in here
 	// Send back the info + a signed token that has the user's ID needed to authenticate on protected routes

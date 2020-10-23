@@ -17,7 +17,14 @@ const LoginScreen = ({ location, history }) => {
 
 	const { loading, error, userInfo } = userLogin
 
+	// 1. If you werent logged in and wanted to head to checkout, you'll first get redirected to login
+	// 2. Shipping gets pulled off from the URL with the .split method
+	// 3. When logged in the page refreshes due to userInfo now being in Redux and LocalStorage
+	// 4. Because we have userInfo, the useEffect triggers and redirects us to the ShippingScreen
+	// If you just came from the login link, there won't be any search query and you'll get pushed to '/'
 	const redirect = location.search ? location.search.split('=')[1] : '/'
+	console.log(redirect)
+	console.log(location.search.split('=')[1])
 
 	useEffect(() => {
 		if (userInfo) {
@@ -63,7 +70,7 @@ const LoginScreen = ({ location, history }) => {
 				</Form.Group>
 
 				<Button type='submit' variant='primary'>
-					Sign IN
+					Sign In
 				</Button>
 			</Form>
 
