@@ -21,12 +21,13 @@ const CartScreen = ({ match, location, history }) => {
 
 	useEffect(() => {
 		if (productID) {
-			console.log(productID)
 			dispatch(addCartItem(productID, qty))
 		}
 	}, [dispatch, productID, qty])
 
-	// If they are not logged in, link to login, if they are ? redirect to shipping page
+	// Link them to the login page with shipping redirect, the LoginScreen itself will check if you are logged in yes or no
+	// If you are logged in then you'll go directly to shipping (useEffect looking for userInfo and then pushing to shipping)
+	// If not then you wont be directed because userInfo is empty aka not logged in
 	const checkOut = () => {
 		history.push('/login?redirect=shipping')
 	}
