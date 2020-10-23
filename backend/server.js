@@ -16,7 +16,7 @@ app.use(express.json())
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 
-// This function will run FIRST when an error is catched by the asyncHandler in the products route
+// This function will run when it can't match a route
 app.use(notFound)
 
 // Define error handling middleware last after other app.use

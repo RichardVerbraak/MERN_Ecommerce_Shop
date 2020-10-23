@@ -3,7 +3,16 @@
 // If this happens, then Express will skip all middleware execution in the middleware stack and triggers the "Global error middleware"
 // to throw the error message that we have defined in Global Error Middleware.
 
+// When an error happens in any of the routes, errorHandler middleware will run due to asyncHandler
+// AsyncHandler is the same as doing this, which is passing the error with next() DIRECTLY to our custom error handler (due to express)
+// try {
+// 	// whatever needs to be done with this route
+// } catch (error) {
+// 	next(error)
+// }
+
 // Fallback handler for 404 errors
+// Passes the error to our errorHandler with next if no matching route was found
 const notFound = (req, res, next) => {
 	const error = new Error(`Not found - ${req.originalUrl}`)
 	res.status(404)
