@@ -23,8 +23,6 @@ const LoginScreen = ({ location, history }) => {
 	// 4. Because we have userInfo, the useEffect triggers and redirects us to the ShippingScreen
 	// If you just came from the login link, there won't be any search query and you'll get pushed to '/'
 	const redirect = location.search ? location.search.split('=')[1] : '/'
-	console.log(redirect)
-	console.log(location.search.split('=')[1])
 
 	useEffect(() => {
 		if (userInfo) {

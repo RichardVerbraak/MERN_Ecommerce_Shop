@@ -36,3 +36,13 @@ export const login = (email, password) => {
 		}
 	}
 }
+
+export const logout = () => {
+	return (dispatch) => {
+		localStorage.removeItem('userInfo')
+
+		dispatch({
+			type: 'USER_LOGOUT',
+		})
+	}
+}
