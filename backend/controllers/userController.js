@@ -74,11 +74,14 @@ const registerUser = asyncHandler(async (req, res) => {
 	}
 })
 
+//## In private routes we have access to the users details via req.user to protect middleware
+// Protect middleware looks for a token, decodes it and matches it with the one in the DB
+// Then it assigns it to the request object with the data that comes back from the DB
+
 // @desc       	Get user profile
 // @route       GET /api/users/profile
 // @access      Private
 const getUserProfile = asyncHandler(async (req, res) => {
-	// Dont forget await on the promise
 	const user = await User.findById(req.user._id)
 
 	// Return this info to the logged in user
@@ -95,4 +98,34 @@ const getUserProfile = asyncHandler(async (req, res) => {
 	}
 })
 
-export { authUser, getUserProfile, registerUser }
+// @desc        Update a user
+// @route       Put /api/users/profile
+// @access      Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id)
+
+	// Sets the name, email, password to the info we get from the frontend OR leave it as is if something wasn't send
+	if (user) {
+		user.name = req.body.name || user.name
+		user.email = req.body.email || user.email
+		if (req.body.password) {
+			user.password = req.body.password
+		}
+
+		const updatedUser = await user.save()
+
+		// Send another token back so he stays logged in
+		res.json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			isAdmin: user.isAdmin,
+			token: generateToken(updatedUser._id),
+		})
+	} else {
+		res.status(404)
+		throw new Error('User not found')
+	}
+})
+
+export { authUser, getUserProfile, registerUser, updateUserProfile }
