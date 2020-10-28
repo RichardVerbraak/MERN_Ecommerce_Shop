@@ -3,7 +3,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getUserDetails } from '../actions/userActions'
+import { getUserDetails, updateUserProfile } from '../actions/userActions'
 
 const ProfileScreen = ({ location, history }) => {
 	const [name, setName] = useState('')
@@ -14,17 +14,26 @@ const ProfileScreen = ({ location, history }) => {
 
 	const dispatch = useDispatch()
 
+	//// User details state
 	const userDetails = useSelector((state) => {
 		return state.userDetails
 	})
 
+	const { loading, error, user } = userDetails
+
+	//// User login state
 	const userLogin = useSelector((state) => {
 		return state.userLogin
 	})
 
-	const { loading, error, user } = userDetails
-
 	const { userInfo } = userLogin
+
+	//// User update state
+	const userUpdateProfile = useSelector((state) => {
+		return state.userUpdateProfile
+	})
+
+	const { success } = userUpdateProfile
 
 	// If I dont return the state in the USER_DETAILS_REQUEST, the user field from state won't have anything and won't trigger useEffect user dependecy
 	useEffect(() => {
@@ -45,7 +54,14 @@ const ProfileScreen = ({ location, history }) => {
 		if (password !== confirmPassword) {
 			setMessage('Passwords do not match')
 		} else {
-			// Dispatch update profile
+			dispatch(
+				updateUserProfile({
+					id: user._id,
+					name,
+					email,
+					password,
+				})
+			)
 		}
 	}
 
@@ -55,6 +71,7 @@ const ProfileScreen = ({ location, history }) => {
 				<h2>User Profile</h2>
 
 				{error && <Message variant='danger'>{error}</Message>}
+				{success && <Message variant='success'>Profile updated</Message>}
 				{message && <Message variant='danger'>{message}</Message>}
 				{loading && <Loader />}
 

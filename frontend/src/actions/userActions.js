@@ -115,9 +115,44 @@ export const getUserDetails = (id) => {
 				type: 'USER_DETAILS_SUCCESS',
 				payload: data,
 			})
+		} catch (error) {}
+	}
+}
+
+export const updateUserProfile = (user) => {
+	return async (dispatch, getState) => {
+		try {
+			const {
+				userLogin: { userInfo },
+			} = getState()
+
+			dispatch({
+				type: 'USER_UPDATE_PROFILE_REQUEST',
+			})
+
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${userInfo.token}`,
+				},
+			}
+
+			const { data } = await axios.put('/api/users/profile', user, config)
+
+			dispatch({
+				type: 'USER_UPDATE_PROFILE_SUCCESS',
+				payload: data,
+			})
+
+			dispatch({
+				type: 'USER_LOGIN_SUCCESS',
+				payload: data,
+			})
+
+			localStorage.setItem('userInfo', JSON.stringify(data))
 		} catch (error) {
 			dispatch({
-				type: 'USER_DETAILS_FAIL',
+				type: 'USER_UPDATE_PROFILE_FAIL',
 				payload:
 					error.response && error.response.data.message
 						? error.response.data.message

@@ -16,6 +16,7 @@ import {
 	userLoginReducer,
 	userRegisterReducer,
 	userDetailsReducer,
+	userUpdateProfileReducer,
 } from './reducers/userReducers'
 
 //###!!! DO NOT FORGET TO SPECIFY THE NAME OF THE REDUCER LIKE: state.productList.loading and NOT state.loading
@@ -27,6 +28,7 @@ const reducers = combineReducers({
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
 	userDetails: userDetailsReducer,
+	userUpdateProfile: userUpdateProfileReducer,
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')
