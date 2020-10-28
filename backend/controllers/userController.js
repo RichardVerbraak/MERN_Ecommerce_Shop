@@ -86,6 +86,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 	// Return this info to the logged in user
 	if (user) {
+		console.log(user)
 		res.json({
 			_id: user._id,
 			name: user.name,

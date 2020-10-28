@@ -18,21 +18,18 @@ const ProfileScreen = ({ location, history }) => {
 	const userDetails = useSelector((state) => {
 		return state.userDetails
 	})
-
 	const { loading, error, user } = userDetails
 
 	//// User login state
 	const userLogin = useSelector((state) => {
 		return state.userLogin
 	})
-
 	const { userInfo } = userLogin
 
 	//// User update state
 	const userUpdateProfile = useSelector((state) => {
 		return state.userUpdateProfile
 	})
-
 	const { success } = userUpdateProfile
 
 	// If I dont return the state in the USER_DETAILS_REQUEST, the user field from state won't have anything and won't trigger useEffect user dependecy
