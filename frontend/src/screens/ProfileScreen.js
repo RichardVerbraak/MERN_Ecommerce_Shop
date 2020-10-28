@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
@@ -27,6 +26,7 @@ const ProfileScreen = ({ location, history }) => {
 
 	const { userInfo } = userLogin
 
+	// If I dont return the state in the USER_DETAILS_REQUEST, the user field from state won't have anything and won't trigger useEffect user dependecy
 	useEffect(() => {
 		if (!userInfo) {
 			history.push('/login')
@@ -38,7 +38,7 @@ const ProfileScreen = ({ location, history }) => {
 				setEmail(user.email)
 			}
 		}
-	}, [dispatch, history, userInfo])
+	}, [dispatch, history, userInfo, user])
 
 	const submitHandler = (e) => {
 		e.preventDefault()

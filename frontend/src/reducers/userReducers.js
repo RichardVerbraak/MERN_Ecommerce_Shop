@@ -50,10 +50,12 @@ export const userRegisterReducer = (state = {}, action) => {
 	}
 }
 
+// Forgot to return the state in the USER_DETAILS_REQUEST, further notes in ProfileScreen
 export const userDetailsReducer = (state = { user: {} }, action) => {
 	switch (action.type) {
 		case 'USER_DETAILS_REQUEST':
 			return {
+				...state,
 				loading: true,
 			}
 		case 'USER_DETAILS_SUCCESS':
