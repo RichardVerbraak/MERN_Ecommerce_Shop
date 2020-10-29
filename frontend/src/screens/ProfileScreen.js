@@ -40,8 +40,10 @@ const ProfileScreen = ({ location, history }) => {
 			if (!user.name) {
 				dispatch(getUserDetails('profile'))
 			} else {
-				setName(user.name)
-				setEmail(user.email)
+				// ???????????????? IDK how Brad's name fields are getting changed when he uses user.name & user.email
+				// Since these ONLY get updated when we dispatch getUserDetails again
+				setName(userInfo.name)
+				setEmail(userInfo.email)
 			}
 		}
 	}, [dispatch, history, userInfo, user])
@@ -67,64 +69,68 @@ const ProfileScreen = ({ location, history }) => {
 			<Col md={3}>
 				<h2>User Profile</h2>
 
-				{error && <Message variant='danger'>{error}</Message>}
-				{success && <Message variant='success'>Profile updated</Message>}
 				{message && <Message variant='danger'>{message}</Message>}
-				{loading && <Loader />}
+				{success && <Message variant='success'>Profile updated</Message>}
 
-				<Form onSubmit={submitHandler}>
-					<Form.Group controlId='name'>
-						<Form.Label>Name</Form.Label>
-						<Form.Control
-							type='name'
-							placeholder='Enter name'
-							value={name}
-							onChange={(e) => {
-								setName(e.target.value)
-							}}
-						></Form.Control>
-					</Form.Group>
+				{loading ? (
+					<Loader />
+				) : error ? (
+					<Message variant='danger'>{error}</Message>
+				) : (
+					<Form onSubmit={submitHandler}>
+						<Form.Group controlId='name'>
+							<Form.Label>Name</Form.Label>
+							<Form.Control
+								type='name'
+								placeholder='Enter name'
+								value={name}
+								onChange={(e) => {
+									setName(e.target.value)
+								}}
+							></Form.Control>
+						</Form.Group>
 
-					<Form.Group controlId='email'>
-						<Form.Label>Email Address</Form.Label>
-						<Form.Control
-							type='email'
-							placeholder='Enter email'
-							value={email}
-							onChange={(e) => {
-								setEmail(e.target.value)
-							}}
-						></Form.Control>
-					</Form.Group>
+						<Form.Group controlId='email'>
+							<Form.Label>Email Address</Form.Label>
+							<Form.Control
+								type='email'
+								placeholder='Enter email'
+								value={email}
+								onChange={(e) => {
+									setEmail(e.target.value)
+								}}
+							></Form.Control>
+						</Form.Group>
 
-					<Form.Group controlId='password'>
-						<Form.Label>Password</Form.Label>
-						<Form.Control
-							type='password'
-							placeholder='Enter password'
-							value={password}
-							onChange={(e) => {
-								setPassword(e.target.value)
-							}}
-						></Form.Control>
-					</Form.Group>
+						<Form.Group controlId='password'>
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								type='password'
+								placeholder='Enter password'
+								value={password}
+								onChange={(e) => {
+									setPassword(e.target.value)
+								}}
+							></Form.Control>
+						</Form.Group>
 
-					<Form.Group controlId='password'>
-						<Form.Label>Confirm Password</Form.Label>
-						<Form.Control
-							type='password'
-							placeholder='Confirm password'
-							value={confirmPassword}
-							onChange={(e) => {
-								setConfirmPassword(e.target.value)
-							}}
-						></Form.Control>
-					</Form.Group>
+						<Form.Group controlId='password'>
+							<Form.Label>Confirm Password</Form.Label>
+							<Form.Control
+								type='password'
+								placeholder='Confirm password'
+								value={confirmPassword}
+								onChange={(e) => {
+									setConfirmPassword(e.target.value)
+								}}
+							></Form.Control>
+						</Form.Group>
 
-					<Button type='submit' variant='primary'>
-						Update
-					</Button>
-				</Form>
+						<Button type='submit' variant='primary'>
+							Update
+						</Button>
+					</Form>
+				)}
 			</Col>
 			<Col md={9}>
 				<h2>My orders</h2>

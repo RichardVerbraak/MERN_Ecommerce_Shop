@@ -6,10 +6,10 @@ import { logout } from '../actions/userActions'
 
 const Header = () => {
 	const dispatch = useDispatch()
+
 	const userState = useSelector((state) => {
 		return state.userLogin
 	})
-
 	const { userInfo } = userState
 
 	const logoutHandler = () => {
