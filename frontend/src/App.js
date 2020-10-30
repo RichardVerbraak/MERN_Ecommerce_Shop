@@ -10,6 +10,7 @@ import CartScreen from './screens/CartScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import ShippingScreen from './screens/ShippingScreen'
 
 // Adding a ? after the ID is basically saying that the ID is optional, the page will render when you click on cart
 // also when you add a product to your cart and getting redirected with that ID + quantity
@@ -20,6 +21,7 @@ const App = () => {
 			<Header />
 			<main className='py-3'>
 				<Container>
+					<Route path='/shipping' component={ShippingScreen} />
 					<Route path='/login' component={LoginScreen} />
 					<Route path='/register' component={RegisterScreen} />
 					<Route path='/profile' component={ProfileScreen} />

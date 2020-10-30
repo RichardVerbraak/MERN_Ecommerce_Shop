@@ -26,6 +26,8 @@ const ProfileScreen = ({ location, history }) => {
 	})
 	const { userInfo } = userLogin
 
+	console.log(userInfo)
+
 	//// User update state
 	const userUpdateProfile = useSelector((state) => {
 		return state.userUpdateProfile
@@ -40,8 +42,7 @@ const ProfileScreen = ({ location, history }) => {
 			if (!user.name) {
 				dispatch(getUserDetails('profile'))
 			} else {
-				// ???????????????? IDK how Brad's name fields are getting changed when he uses user.name & user.email
-				// Since these ONLY get updated when we dispatch getUserDetails again
+				// SHOULD BE USER.name but somehow bugged
 				setName(userInfo.name)
 				setEmail(userInfo.email)
 			}
