@@ -1,17 +1,34 @@
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { saveShippingAddress } from '../actions/cartActions'
 import FormContainer from '../components/FormContainer'
 
+// Could also use useEffect for setting address?
 const ShippingScreen = ({ history }) => {
-	const [address, setAddress] = useState('')
-	const [city, setCity] = useState('')
-	const [postalCode, setPostalCode] = useState('')
-	const [country, setCountry] = useState('')
+	const cart = useSelector((state) => {
+		return state.cart
+	})
+	const { shippingAddress } = cart
+
+	const [address, setAddress] = useState(shippingAddress.address)
+	const [city, setCity] = useState(shippingAddress.city)
+	const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
+	const [country, setCountry] = useState(shippingAddress.country)
+
+	const dispatch = useDispatch()
 
 	const submitHandler = (e) => {
 		e.preventDefault()
+		dispatch(
+			saveShippingAddress({
+				address,
+				city,
+				postalCode,
+				country,
+			})
+		)
+		history.push('/payment')
 	}
 
 	return (
@@ -58,7 +75,7 @@ const ShippingScreen = ({ history }) => {
 				</Form.Group>
 
 				<Form.Group controlId='country'>
-					<Form.Label>Postal Code</Form.Label>
+					<Form.Label>Country</Form.Label>
 					<Form.Control
 						type='text'
 						placeholder='Enter country'

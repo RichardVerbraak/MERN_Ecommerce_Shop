@@ -1,5 +1,6 @@
 const initialState = {
 	cartItems: [],
+	shippingAddress: {},
 }
 
 export const cartReducer = (state = initialState, action) => {
@@ -32,6 +33,12 @@ export const cartReducer = (state = initialState, action) => {
 				cartItems: state.cartItems.filter((item) => {
 					return action.payload !== item.product
 				}),
+			}
+		case 'CART_SAVE_SHIPPING_ADDRESS':
+			console.log(`Called with ${action.payload}`)
+			return {
+				...state,
+				shippingAddress: action.payload,
 			}
 
 		default:
