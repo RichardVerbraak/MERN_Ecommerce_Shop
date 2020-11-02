@@ -43,12 +43,17 @@ const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
 	? JSON.parse(localStorage.getItem('shippingAddress'))
 	: {}
 
+const paymentMethodFromStorage = localStorage.getItem('paymentMethod')
+	? JSON.parse(localStorage.getItem('paymentMethod'))
+	: null
+
 // This is the same as doing state.cart.cartItems: cartItemsFromStorage
 // It's like a global state but here were grabbing only the cart reducer's state
 const initialState = {
 	cart: {
 		cartItems: cartItemsFromStorage,
 		shippingAddress: shippingAddressFromStorage,
+		paymentMethod: paymentMethodFromStorage,
 	},
 	userLogin: {
 		userInfo: userInfoFromStorage,
