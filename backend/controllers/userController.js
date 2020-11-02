@@ -104,8 +104,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id)
 
-	console.log(user)
-
 	// Sets the name, email, password to the info we get from the frontend OR leave it as is if something wasn't send
 	if (user) {
 		user.name = req.body.name || user.name
@@ -116,8 +114,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 		}
 
 		const updatedUser = await user.save()
-
-		console.log(updatedUser)
 
 		// Send another token back so he stays logged in
 		res.json({

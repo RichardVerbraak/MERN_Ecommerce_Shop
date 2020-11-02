@@ -35,19 +35,20 @@ const ProfileScreen = ({ location, history }) => {
 	const { success } = userUpdateProfile
 
 	// If I dont return the state in the USER_DETAILS_REQUEST, the user field from state won't have anything and won't trigger useEffect user dependecy
+	// If success => we reset user update (idk why, since now we have now success message) => getting the userDetails again thus having the name field updated
 	useEffect(() => {
 		if (!userInfo) {
 			history.push('/login')
 		} else {
-			if (!user.name) {
+			if (!user.name || !user.name || success) {
+				dispatch({ type: 'USER_UPDATE_PROFILE_RESET' })
 				dispatch(getUserDetails('profile'))
 			} else {
-				// SHOULD BE USER.name but somehow bugged
-				setName(userInfo.name)
-				setEmail(userInfo.email)
+				setName(user.name)
+				setEmail(user.email)
 			}
 		}
-	}, [dispatch, history, userInfo, user])
+	}, [dispatch, history, userInfo, user, success])
 
 	const submitHandler = (e) => {
 		e.preventDefault()
