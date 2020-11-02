@@ -12,7 +12,7 @@ const PaymentScreen = ({ history }) => {
 	})
 	const { shippingAddress } = cart
 
-	if (!shippingAddress) {
+	if (!!shippingAddress) {
 		history.push('/shipping')
 	}
 

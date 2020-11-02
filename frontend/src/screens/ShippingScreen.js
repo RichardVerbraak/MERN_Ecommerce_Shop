@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { saveShippingAddress } from '../actions/cartActions'
 import FormContainer from '../components/FormContainer'
 import CheckoutSteps from '../components/CheckoutSteps'
+import Message from '../components/Message'
 
 // Could also use useEffect for setting address?
 const ShippingScreen = ({ history }) => {
