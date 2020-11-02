@@ -4,32 +4,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import { saveShippingAddress } from '../actions/cartActions'
 import FormContainer from '../components/FormContainer'
 import CheckoutSteps from '../components/CheckoutSteps'
-import Message from '../components/Message'
 
 // Could also use useEffect for setting address?
+// Setting the input fields to an empty string or you'll get an error about being uncontrolled components
+// This error happens when it's null or undefined
 const ShippingScreen = ({ history }) => {
-	const cart = useSelector((state) => {
-		return state.cart
-	})
+	const cart = useSelector((state) => state.cart)
 	const { shippingAddress } = cart
 
-	const [address, setAddress] = useState(shippingAddress.address)
-	const [city, setCity] = useState(shippingAddress.city)
-	const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
-	const [country, setCountry] = useState(shippingAddress.country)
+	const [address, setAddress] = useState(shippingAddress.address || '')
+	const [city, setCity] = useState(shippingAddress.city || '')
+	const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || '')
+	const [country, setCountry] = useState(shippingAddress.country || '')
 
 	const dispatch = useDispatch()
 
 	const submitHandler = (e) => {
 		e.preventDefault()
-		dispatch(
-			saveShippingAddress({
-				address,
-				city,
-				postalCode,
-				country,
-			})
-		)
+		dispatch(saveShippingAddress({ address, city, postalCode, country }))
 		history.push('/payment')
 	}
 
@@ -45,9 +37,7 @@ const ShippingScreen = ({ history }) => {
 						placeholder='Enter address'
 						value={address}
 						required
-						onChange={(e) => {
-							setAddress(e.target.value)
-						}}
+						onChange={(e) => setAddress(e.target.value)}
 					></Form.Control>
 				</Form.Group>
 
@@ -58,9 +48,7 @@ const ShippingScreen = ({ history }) => {
 						placeholder='Enter city'
 						value={city}
 						required
-						onChange={(e) => {
-							setCity(e.target.value)
-						}}
+						onChange={(e) => setCity(e.target.value)}
 					></Form.Control>
 				</Form.Group>
 
@@ -71,9 +59,7 @@ const ShippingScreen = ({ history }) => {
 						placeholder='Enter postal code'
 						value={postalCode}
 						required
-						onChange={(e) => {
-							setPostalCode(e.target.value)
-						}}
+						onChange={(e) => setPostalCode(e.target.value)}
 					></Form.Control>
 				</Form.Group>
 
@@ -84,9 +70,7 @@ const ShippingScreen = ({ history }) => {
 						placeholder='Enter country'
 						value={country}
 						required
-						onChange={(e) => {
-							setCountry(e.target.value)
-						}}
+						onChange={(e) => setCountry(e.target.value)}
 					></Form.Control>
 				</Form.Group>
 

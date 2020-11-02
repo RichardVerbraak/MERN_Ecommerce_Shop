@@ -12,7 +12,8 @@ const PaymentScreen = ({ history }) => {
 	})
 	const { shippingAddress } = cart
 
-	if (!!shippingAddress) {
+	// !!shippingAddress doesn't work when form fields are filled in
+	if (!shippingAddress.address) {
 		history.push('/shipping')
 	}
 

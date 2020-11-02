@@ -40,7 +40,7 @@ export const removeCartItem = (id) => {
 }
 
 export const saveShippingAddress = (data) => {
-	return async (dispatch) => {
+	return (dispatch) => {
 		dispatch({
 			type: 'CART_SAVE_SHIPPING_ADDRESS',
 			payload: data,
@@ -51,7 +51,7 @@ export const saveShippingAddress = (data) => {
 }
 
 export const savePaymentMethod = (paymentMethod) => {
-	return async (dispatch) => {
+	return (dispatch) => {
 		dispatch({
 			type: 'CART_SAVE_PAYMENT_METHOD',
 			payload: paymentMethod,
