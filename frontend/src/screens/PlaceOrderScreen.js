@@ -20,11 +20,28 @@ const PlaceOrderScreen = () => {
 
 	//////// Calculate prices
 
+	// Brad uses this to add decimals to his numbers
+	const addDecimals = (num) => {
+		return (Math.round(num * 100) / 100).toFixed(2)
+	}
+
 	// Prices of items
 	cart.itemsPrice = cartItems.reduce((accumulator, item) => {
-		let total = accumulator + item.price * item.qty
-		return total
+		return accumulator + item.price * item.qty
 	}, 0)
+
+	// Shipping Price
+	cart.shippingPrice =
+		cart.itemsPrice > Number(100).toFixed(2)
+			? Number(0).toFixed(2)
+			: Number(10).toFixed(2)
+
+	// Tax price
+	cart.taxPrice = Number(0.15 * cart.itemsPrice).toFixed(2)
+
+	// Price total
+	cart.totalPrice =
+		Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)
 
 	return (
 		<Fragment>
