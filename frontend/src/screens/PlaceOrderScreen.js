@@ -6,7 +6,7 @@ import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
 
-const PlaceOrderScreen = () => {
+const PlaceOrderScreen = ({ history }) => {
 	const cart = useSelector((state) => {
 		return state.cart
 	})
@@ -23,13 +23,16 @@ const PlaceOrderScreen = () => {
 	const orderCreate = useSelector((state) => {
 		return state.orderCreate
 	})
-	const { loading, success, order } = orderCreate
+	const { order, success, error } = orderCreate
 
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		// push to other screen if success?
-	}, [success, order])
+		if (success) {
+			history.push(`/order/${order._id}`)
+		}
+		// eslint-disable-next-line
+	}, [history, success])
 
 	const placeOrder = () => {
 		dispatch(
@@ -133,30 +136,39 @@ const PlaceOrderScreen = () => {
 							<ListGroup.Item>
 								<h2>Order Summary</h2>
 							</ListGroup.Item>
+
 							<ListGroup.Item>
 								<Row>
 									<Col>Items</Col>
 									<Col>${cart.itemsPrice}</Col>
 								</Row>
 							</ListGroup.Item>
+
 							<ListGroup.Item>
 								<Row>
 									<Col>Shipping</Col>
 									<Col>${cart.shippingPrice}</Col>
 								</Row>
 							</ListGroup.Item>
+
 							<ListGroup.Item>
 								<Row>
 									<Col>Tax</Col>
 									<Col>${cart.taxPrice}</Col>
 								</Row>
 							</ListGroup.Item>
+
 							<ListGroup.Item>
 								<Row>
 									<Col>Total</Col>
 									<Col>${cart.totalPrice}</Col>
 								</Row>
 							</ListGroup.Item>
+
+							<ListGroup.Item>
+								{error && <Message variant='danger'>{error}</Message>}
+							</ListGroup.Item>
+
 							<ListGroup.Item>
 								<Button
 									type='button'
