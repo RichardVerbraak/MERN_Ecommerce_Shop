@@ -1,25 +1,51 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { saveShippingAddress } from '../actions/cartActions'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
+import { createOrder } from '../actions/orderActions'
 
 const PlaceOrderScreen = () => {
 	const cart = useSelector((state) => {
 		return state.cart
 	})
-	const { cartItems, shippingAddress, paymentMethod } = cart
+	const {
+		cartItems,
+		shippingAddress,
+		paymentMethod,
+		itemsPrice,
+		shippingPrice,
+		taxPrice,
+		totalPrice,
+	} = cart
+
+	const orderCreate = useSelector((state) => {
+		return state.orderCreate
+	})
+	const { loading, success, order } = orderCreate
 
 	const dispatch = useDispatch()
 
+	useEffect(() => {
+		// push to other screen if success?
+	}, [success, order])
+
 	const placeOrder = () => {
-		console.log('Ordered')
+		dispatch(
+			createOrder({
+				orderItems: cartItems,
+				shippingAddress,
+				paymentMethod,
+				itemsPrice,
+				shippingPrice,
+				taxPrice,
+				totalPrice,
+			})
+		)
 	}
 
 	//////// Calculate prices
-
 	// Brad uses this to add decimals to his numbers
 	const addDecimals = (num) => {
 		return (Math.round(num * 100) / 100).toFixed(2)
