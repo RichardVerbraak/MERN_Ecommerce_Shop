@@ -50,6 +50,7 @@ const PlaceOrderScreen = ({ history }) => {
 
 	//////// Calculate prices
 	// Brad uses this to add decimals to his numbers
+	// eslint-disable-next-line
 	const addDecimals = (num) => {
 		return (Math.round(num * 100) / 100).toFixed(2)
 	}

@@ -18,7 +18,12 @@ import {
 	userDetailsReducer,
 	userUpdateProfileReducer,
 } from './reducers/userReducers'
-import { orderCreateReducer } from './reducers/orderReducer'
+
+// Order Reducers
+import {
+	orderCreateReducer,
+	orderDetailsReducer,
+} from './reducers/orderReducer'
 
 //###!!! DO NOT FORGET TO SPECIFY THE NAME OF THE REDUCER LIKE: state.productList.loading and NOT state.loading
 // When using the connect function with Redux (mapStateToProps etc.)
@@ -31,6 +36,7 @@ const reducers = combineReducers({
 	userDetails: userDetailsReducer,
 	userUpdateProfile: userUpdateProfileReducer,
 	orderCreate: orderCreateReducer,
+	orderDetails: orderDetailsReducer,
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')
