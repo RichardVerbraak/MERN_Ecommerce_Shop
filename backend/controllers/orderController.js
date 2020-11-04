@@ -36,15 +36,19 @@ const addOrderItems = asyncHandler(async (req, res) => {
 	}
 })
 
-// @desc        Get order
-// @route       GET /api/orders/order/orderID
+// @desc        Get order by ID
+// @route       GET /api/orders/:id
 // @access      Private
 const getOrder = asyncHandler(async (req, res) => {
-	if (req.params.id) {
-		const order = await Order.findById(req.params.id)
+	const order = await Order.findById(req.params.id).populate(
+		'user',
+		'name email'
+	)
+
+	if (order) {
 		res.json(order)
 	} else {
-		res.status(400)
+		res.status(404)
 		throw new Error('Order not found')
 	}
 })
