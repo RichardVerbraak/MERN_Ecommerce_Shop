@@ -23,6 +23,7 @@ import {
 import {
 	orderCreateReducer,
 	orderDetailsReducer,
+	orderPayReducer,
 } from './reducers/orderReducer'
 
 //###!!! DO NOT FORGET TO SPECIFY THE NAME OF THE REDUCER LIKE: state.productList.loading and NOT state.loading
@@ -37,6 +38,7 @@ const reducers = combineReducers({
 	userUpdateProfile: userUpdateProfileReducer,
 	orderCreate: orderCreateReducer,
 	orderDetails: orderDetailsReducer,
+	orderPay: orderPayReducer,
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')
