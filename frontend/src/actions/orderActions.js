@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export const createOrder = (order) => {
-	console.log(order)
 	return async (dispatch, getState) => {
 		const {
 			userLogin: { userInfo },

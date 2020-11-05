@@ -17,8 +17,11 @@ const OrderScreen = ({ match }) => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		dispatch(getOrderDetails(orderID))
-	}, [])
+		// Double check to see if there is an order and if it matches the one in the URL
+		if (!order || order._id !== orderID) {
+			dispatch(getOrderDetails(orderID))
+		}
+	}, [dispatch, order, orderID])
 
 	return (
 		<Fragment>

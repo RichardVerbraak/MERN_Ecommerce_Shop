@@ -27,11 +27,13 @@ export const orderDetailsReducer = (
 ) => {
 	switch (action.type) {
 		case 'ORDER_DETAILS_REQUEST':
+			console.log('REQUEST')
 			return {
 				...state,
 				loading: true,
 			}
 		case 'ORDER_DETAILS_SUCCESS':
+			console.log('SUCCESS')
 			return {
 				loading: false,
 				success: true,

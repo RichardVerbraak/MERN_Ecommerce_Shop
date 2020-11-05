@@ -39,6 +39,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @desc        Get order by ID
 // @route       GET /api/orders/:id
 // @access      Private
+// Get the order from DB and also populate it with the users name and email
 const getOrder = asyncHandler(async (req, res) => {
 	const order = await Order.findById(req.params.id).populate(
 		'user',
@@ -53,4 +54,29 @@ const getOrder = asyncHandler(async (req, res) => {
 	}
 })
 
-export { addOrderItems, getOrder }
+// @desc       	Update order to isPaid: true
+// @route       GET /api/orders/:id/pay
+// @access      Private
+// Find order => update the fields => save to DB => send back updated order
+const updateOrderToPaid = asyncHandler(async (req, res) => {
+	const order = await Order.findById(req.params.id)
+
+	if (order) {
+		order.isPaid = true
+		order.paidAt = Date.now()
+		order.paymentResult = {
+			id: req.body.id,
+			status: req.body.status,
+			update_time: req.body.update_time,
+			email_address: req.body.payer.email_address,
+		}
+
+		const updatedOrder = await order.save()
+		res.json(updatedOrder)
+	} else {
+		res.status(404)
+		throw new Error('Order not found')
+	}
+})
+
+export { addOrderItems, getOrder, updateOrderToPaid }
