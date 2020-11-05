@@ -35,7 +35,7 @@ export const orderDetailsReducer = (
 			return {
 				loading: false,
 				success: true,
-				orderDetails: action.payload,
+				order: action.payload,
 			}
 		case 'ORDER_DETAILS_FAIL':
 			return {

@@ -10,15 +10,7 @@ const PlaceOrderScreen = ({ history }) => {
 	const cart = useSelector((state) => {
 		return state.cart
 	})
-	const {
-		cartItems,
-		shippingAddress,
-		paymentMethod,
-		itemsPrice,
-		shippingPrice,
-		taxPrice,
-		totalPrice,
-	} = cart
+	const { cartItems, shippingAddress, paymentMethod } = cart
 
 	const orderCreate = useSelector((state) => {
 		return state.orderCreate
