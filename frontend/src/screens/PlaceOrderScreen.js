@@ -34,20 +34,6 @@ const PlaceOrderScreen = ({ history }) => {
 		// eslint-disable-next-line
 	}, [history, success])
 
-	const placeOrder = () => {
-		dispatch(
-			createOrder({
-				orderItems: cartItems,
-				shippingAddress,
-				paymentMethod,
-				itemsPrice,
-				shippingPrice,
-				taxPrice,
-				totalPrice,
-			})
-		)
-	}
-
 	//////// Calculate prices
 	// Brad uses this to add decimals to his numbers
 	// eslint-disable-next-line
@@ -72,6 +58,20 @@ const PlaceOrderScreen = ({ history }) => {
 	// Price total
 	cart.totalPrice =
 		Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)
+
+	const placeOrder = () => {
+		dispatch(
+			createOrder({
+				orderItems: cartItems,
+				shippingAddress: cart.shippingAddress,
+				paymentMethod: cart.paymentMethod,
+				itemsPrice: cart.itemsPrice,
+				shippingPrice: cart.shippingPrice,
+				taxPrice: cart.taxPrice,
+				totalPrice: cart.totalPrice,
+			})
+		)
+	}
 
 	return (
 		<Fragment>

@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 export const createOrder = (order) => {
+	console.log(order)
 	return async (dispatch, getState) => {
 		const {
 			userLogin: { userInfo },
@@ -39,13 +40,13 @@ export const createOrder = (order) => {
 export const getOrderDetails = (id) => {
 	return async (dispatch, getState) => {
 		try {
-			dispatch({
-				type: 'ORDER_DETAILS_REQUEST',
-			})
-
 			const {
 				userLogin: { userInfo },
 			} = getState()
+
+			dispatch({
+				type: 'ORDER_DETAILS_REQUEST',
+			})
 
 			const config = {
 				headers: {
@@ -53,7 +54,7 @@ export const getOrderDetails = (id) => {
 				},
 			}
 
-			const { data } = await axios.get(`/orders/${id}`, config)
+			const { data } = await axios.get(`/api/orders/${id}`, config)
 
 			dispatch({
 				type: 'ORDER_DETAILS_SUCCESS',
