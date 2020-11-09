@@ -61,6 +61,7 @@ const OrderScreen = ({ match }) => {
 		if (!order || order._id !== orderID || successPay) {
 			dispatch(orderReset())
 			dispatch(getOrderDetails(orderID))
+			// If it isn't paid it will append the paypal script to the page, if it is it will set the state to true (script ready)
 		} else if (!order.isPaid) {
 			if (!window.paypal) {
 				addPayPalScript()
@@ -70,6 +71,7 @@ const OrderScreen = ({ match }) => {
 		}
 	}, [dispatch, order, orderID, successPay])
 
+	// When the payment goes through from the paypal button package, this will fire off with the result of the payment and the orderID itself
 	const successPaymentHandler = (paymentResult) => {
 		console.log(paymentResult)
 		dispatch(payOrder(orderID, paymentResult))
