@@ -121,6 +121,7 @@ export const orderReset = () => {
 
 export const getUsersOrders = () => {
 	return async (dispatch, getState) => {
+		console.log('called')
 		try {
 			const {
 				userLogin: { userInfo },
