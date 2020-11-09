@@ -110,3 +110,11 @@ export const payOrder = (id, paymentResult) => {
 		}
 	}
 }
+
+export const orderReset = () => {
+	return (dispatch) => {
+		dispatch({
+			type: 'ORDER_PAY_RESET',
+		})
+	}
+}

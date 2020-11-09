@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react'
+import axios from 'axios'
+import { PayPalButton } from 'react-paypal-button-v2'
 import { Link } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getOrderDetails } from '../actions/orderActions'
-import axios from 'axios'
+import { getOrderDetails, payOrder, orderReset } from '../actions/orderActions'
 
 const OrderScreen = ({ match }) => {
 	const [sdkReady, setSdkReady] = useState(false)
@@ -39,8 +40,6 @@ const OrderScreen = ({ match }) => {
 			document.body.appendChild(script)
 		}
 
-		addPayPalScript()
-
 		// IFFE (Immediatly Invoked Function Expression)
 		// In plain terms, a function that will execute immediatly without being called (due to the brackets at the end)
 		// It needs a semicolon at the start so it prevents previous code getting in the way
@@ -60,6 +59,7 @@ const OrderScreen = ({ match }) => {
 
 		// Double check to see if there is an order and if it matches the one in the URL
 		if (!order || order._id !== orderID || successPay) {
+			dispatch(orderReset())
 			dispatch(getOrderDetails(orderID))
 		} else if (!order.isPaid) {
 			if (!window.paypal) {
@@ -69,6 +69,11 @@ const OrderScreen = ({ match }) => {
 			}
 		}
 	}, [dispatch, order, orderID, successPay])
+
+	const successPaymentHandler = (paymentResult) => {
+		console.log(paymentResult)
+		dispatch(payOrder(orderID, paymentResult))
+	}
 
 	return (
 		<Fragment>
@@ -195,6 +200,19 @@ const OrderScreen = ({ match }) => {
 											<Col>${order.totalPrice}</Col>
 										</Row>
 									</ListGroup.Item>
+									{!order.isPaid && (
+										<ListGroup.Item>
+											{loadingPay && <Loader />}
+											{!sdkReady ? (
+												<Loader />
+											) : (
+												<PayPalButton
+													amount={order.totalPrice}
+													onSuccess={successPaymentHandler}
+												/>
+											)}
+										</ListGroup.Item>
+									)}
 								</ListGroup>
 							</Card>
 						</Col>
