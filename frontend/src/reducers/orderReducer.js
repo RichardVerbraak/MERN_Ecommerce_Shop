@@ -1,3 +1,4 @@
+// Creating an order
 export const orderCreateReducer = (state = {}, action) => {
 	switch (action.type) {
 		case 'ORDER_CREATE_REQUEST':
@@ -21,6 +22,7 @@ export const orderCreateReducer = (state = {}, action) => {
 	}
 }
 
+// Getting the details of the order
 export const orderDetailsReducer = (
 	state = { orderItems: [], shippingAddress: {}, loading: true },
 	action
@@ -48,6 +50,7 @@ export const orderDetailsReducer = (
 	}
 }
 
+// Paying the order
 export const orderPayReducer = (state = {}, action) => {
 	switch (action.type) {
 		case 'ORDER_PAY_REQUEST':
@@ -72,6 +75,7 @@ export const orderPayReducer = (state = {}, action) => {
 	}
 }
 
+// Getting the users orders in the profile screen
 export const orderMyListReducer = (state = { orders: [] }, action) => {
 	switch (action.type) {
 		case 'ORDER_MY_LIST_REQUEST':
