@@ -97,6 +97,7 @@ export const payOrder = (id, paymentResult) => {
 
 			dispatch({
 				type: 'ORDER_PAY_SUCCESS',
+				payload: data,
 			})
 		} catch (error) {
 			dispatch({

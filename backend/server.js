@@ -18,6 +18,11 @@ app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/orders', orderRoutes)
 
+// When ready to pay, hit this route to start up the paypal procedure
+app.get('/api/config/paypal', (req, res) => {
+	res.send(process.env.PAYPAL_CLIENT_ID)
+})
+
 // This function will run when it can't match a route
 app.use(notFound)
 
