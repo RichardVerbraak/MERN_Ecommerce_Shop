@@ -79,4 +79,19 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 	}
 })
 
-export { addOrderItems, getOrder, updateOrderToPaid }
+// @desc       	Get users orders
+// @route       GET /api/orders/myorders
+// @access      Private
+const getUsersOrders = asyncHandler(async (req, res) => {
+	// Finds all orders from the user that has been assigned to the request object in Protect Middleware
+	const orders = await Order.find({ user: req.user._id })
+
+	if (orders) {
+		res.json(orders)
+	} else {
+		res.status(404)
+		throw new Error('Orders not found')
+	}
+})
+
+export { addOrderItems, getOrder, updateOrderToPaid, getUsersOrders }
