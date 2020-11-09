@@ -1,12 +1,15 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getOrderDetails } from '../actions/orderActions'
+import axios from 'axios'
 
 const OrderScreen = ({ match }) => {
+	const [sdkReady, setSdkReady] = useState(false)
+
 	const orderID = match.params.id
 
 	const orderDetailsReducer = useSelector((state) => {
@@ -14,14 +17,58 @@ const OrderScreen = ({ match }) => {
 	})
 	const { order, loading, error } = orderDetailsReducer
 
+	const orderPayReducer = useSelector((state) => {
+		return state.orderPay
+	})
+	const { loading: loadingPay, success: successPay } = orderPayReducer
+
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		// Double check to see if there is an order and if it matches the one in the URL
-		if (!order || order._id !== orderID) {
-			dispatch(getOrderDetails(orderID))
+		const addPayPalScript = async () => {
+			const { data: payPalID } = await axios.get('/api/config/paypal')
+			const script = document.createElement('script')
+			script.type = 'text/javascript'
+			script.src = `https://www.paypal.com/sdk/js?client-id=${payPalID}`
+			script.async = true
+
+			// onload is executed the when the page has been fully loaded
+			script.onload = () => {
+				setSdkReady(true)
+			}
+			document.body.appendChild(script)
 		}
-	}, [dispatch, order, orderID])
+
+		addPayPalScript()
+
+		// IFFE (Immediatly Invoked Function Expression)
+		// In plain terms, a function that will execute immediatly without being called (due to the brackets at the end)
+		// It needs a semicolon at the start so it prevents previous code getting in the way
+		// ;(async function () {
+		// 	const { data: payPalID } = await axios.get('/api/config/paypal')
+		// 	const script = document.createElement('script')
+		// 	script.type = 'text/javascript'
+		// 	script.async = true
+		// 	script.src = `https://paypal.com/sdk/js?client-id=${payPalID}`
+
+		// 	// onload is executed the when the page has been fully loaded
+		// 	script.onload = () => {
+		// 		setSdkReady(true)
+		// 	}
+		// 	document.body.appendChild(script)
+		// })()
+
+		// Double check to see if there is an order and if it matches the one in the URL
+		if (!order || order._id !== orderID || successPay) {
+			dispatch(getOrderDetails(orderID))
+		} else if (!order.isPaid) {
+			if (!window.paypal) {
+				addPayPalScript()
+			} else {
+				setSdkReady(true)
+			}
+		}
+	}, [dispatch, order, orderID, successPay])
 
 	return (
 		<Fragment>
