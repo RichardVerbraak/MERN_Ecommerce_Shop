@@ -127,7 +127,7 @@ export const getUsersOrders = () => {
 			} = getState()
 
 			dispatch({
-				type: 'ORDER_LIST_REQUEST',
+				type: 'ORDER_MY_LIST_REQUEST',
 			})
 
 			const config = {
@@ -139,12 +139,12 @@ export const getUsersOrders = () => {
 			const { data } = await axios.get('/api/orders/myorders', config)
 
 			dispatch({
-				type: 'ORDER_LIST_SUCCESS',
+				type: 'ORDER_MY_LIST_SUCCESS',
 				payload: data,
 			})
 		} catch (error) {
 			dispatch({
-				type: 'ORDER_LIST_FAIL',
+				type: 'ORDER_MY_LIST_FAIL',
 				payload:
 					error.response && error.response.data.message
 						? error.response.data.message
