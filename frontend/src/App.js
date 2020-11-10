@@ -14,6 +14,7 @@ import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderScreen from './screens/OrderScreen'
+import UserListScreen from './screens/UserListScreen'
 
 // Adding a ? after the ID is basically saying that the ID is optional, the page will render when you click on cart
 // also when you add a product to your cart and getting redirected with that ID + quantity
@@ -33,6 +34,7 @@ const App = () => {
 					<Route path='/profile' component={ProfileScreen} />
 					<Route path='/product/:id' component={ProductScreen} />
 					<Route path='/cart/:id?' component={CartScreen} />
+					<Route path='/admin/userList' component={UserListScreen} />
 					<Route path='/' component={HomeScreen} exact />
 				</Container>
 			</main>

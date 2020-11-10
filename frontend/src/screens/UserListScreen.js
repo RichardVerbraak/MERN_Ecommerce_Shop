@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Link } from 'react-router-dom'
 import { Table, Button } from 'react-bootstrap'
@@ -10,13 +10,79 @@ import { getUsers } from '../actions/userActions'
 const UserListScreen = () => {
 	const dispatch = useDispatch()
 
-	const userList = useState((state) => {
+	const userList = useSelector((state) => {
 		return state.userList
 	})
-
 	const { loading, error, users } = userList
 
-	return <div></div>
+	useEffect(() => {
+		dispatch(getUsers())
+	}, [])
+
+	const deleteHandler = (id) => {
+		console.log('deleted')
+	}
+
+	return (
+		<Fragment>
+			<h1>Users</h1>
+			{loading ? (
+				<Loader />
+			) : error ? (
+				<Message variant='danger'>{error}</Message>
+			) : (
+				<Table striped bordered hover responsive className='table-sm'>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>NAME</th>
+							<th>EMAIL</th>
+							<th>ADMIN</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{users.map((user) => {
+							return (
+								<tr key={user._id}>
+									<td>{user.name}</td>
+									<td>
+										<a href={`mailto:${user.email}`}>{user.email}</a>
+									</td>
+									<td>
+										{user.isAdmin ? (
+											<i
+												className='fas fa-check'
+												style={{ color: 'green' }}
+											></i>
+										) : (
+											<i className='fas fa-times' style={{ color: 'red' }}></i>
+										)}
+									</td>
+									<td>
+										<LinkContainer to={`/users/${user._id}/edit`}>
+											<Button variant='light' className='btn-sm'>
+												<i className='fas fa-edit'></i>
+											</Button>
+										</LinkContainer>
+										<Button
+											variant='danger'
+											className='btn-sm'
+											onClick={() => {
+												deleteHandler(user._id)
+											}}
+										>
+											<i className='fas fa-trash'></i>
+										</Button>
+									</td>
+								</tr>
+							)
+						})}
+					</tbody>
+				</Table>
+			)}
+		</Fragment>
+	)
 }
 
 export default UserListScreen
