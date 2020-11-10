@@ -37,12 +37,21 @@ export const login = (email, password) => {
 	}
 }
 
+// Reset the state when logging out
 export const logout = () => {
 	return (dispatch) => {
 		localStorage.removeItem('userInfo')
 
 		dispatch({
 			type: 'USER_LOGOUT',
+		})
+
+		dispatch({
+			type: 'USER_DETAILS_RESET',
+		})
+
+		dispatch({
+			type: 'ORDER_MY_LIST_RESET',
 		})
 	}
 }
