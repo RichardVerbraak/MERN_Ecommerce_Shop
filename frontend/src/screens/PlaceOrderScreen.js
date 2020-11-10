@@ -19,7 +19,13 @@ const PlaceOrderScreen = ({ history }) => {
 
 	const dispatch = useDispatch()
 
+	// Success value never changes back to false, so you'd always instantly get redirected to the order screen and not placeOrder
+	// I fixed this by resetting the success value to false and which gets set to true when createOrder is fired off (place order button)
 	useEffect(() => {
+		dispatch({
+			type: 'ORDER_CREATE_RESET_SUCCESS',
+		})
+
 		if (success) {
 			history.push(`/order/${order._id}`)
 		}
