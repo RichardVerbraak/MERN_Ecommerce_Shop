@@ -53,6 +53,10 @@ export const logout = () => {
 		dispatch({
 			type: 'ORDER_MY_LIST_RESET',
 		})
+
+		dispatch({
+			type: 'USER_LIST_RESET',
+		})
 	}
 }
 
