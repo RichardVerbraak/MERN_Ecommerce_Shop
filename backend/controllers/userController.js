@@ -154,6 +154,23 @@ const deleteUser = asyncHandler(async (req, res) => {
 	}
 })
 
+const adminEditUser = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id)
+
+	if (user) {
+		const { name, email } = req.body
+
+		user.name = name || user.name
+		user.email = email || user.email
+
+		user.save()
+		res.json(user)
+	} else {
+		res.status(404)
+		res.send('User not found')
+	}
+})
+
 export {
 	authUser,
 	getUserProfile,
@@ -161,4 +178,5 @@ export {
 	updateUserProfile,
 	getUsers,
 	deleteUser,
+	adminEditUser,
 }
