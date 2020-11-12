@@ -109,3 +109,25 @@ export const userDeleteReducer = (state = {}, action) => {
 			return state
 	}
 }
+
+export const userEditReducer = (state = { user: {} }, action) => {
+	switch (action.type) {
+		case 'USER_EDIT_REQUEST':
+			return {
+				loading: true,
+			}
+		case 'USER_EDIT_SUCCESS':
+			return {
+				loading: false,
+				success: true,
+			}
+		case 'USER_EDIT_FAIL':
+			return { loading: false, error: action.payload }
+		case 'USER_EDIT_RESET':
+			return {
+				user: {},
+			}
+		default:
+			return state
+	}
+}

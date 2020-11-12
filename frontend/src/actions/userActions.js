@@ -250,3 +250,47 @@ export const deleteUser = (id) => {
 		}
 	}
 }
+
+export const editUser = (id, { name, email, isAdmin }) => {
+	return async (dispatch, getState) => {
+		try {
+			dispatch({
+				type: 'USER_EDIT_REQUEST',
+			})
+
+			const {
+				userLogin: { userInfo },
+			} = getState()
+
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${userInfo.token}`,
+				},
+			}
+
+			const { data } = await axios.put(
+				`/api/users/${id}`,
+				{ name, email, isAdmin },
+				config
+			)
+
+			dispatch({
+				type: 'USER_EDIT_SUCCESS',
+			})
+
+			dispatch({
+				type: 'USER_DETAIL_SUCCESS',
+				payload: data,
+			})
+		} catch (error) {
+			dispatch({
+				type: 'USER_EDIT_FAIL',
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			})
+		}
+	}
+}
