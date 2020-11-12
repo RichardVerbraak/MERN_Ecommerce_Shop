@@ -80,7 +80,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 // @desc       	Get user profile
 // @route       GET /api/users/profile
-// @access      Private
+// @access      Private / Admin
 const getUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id)
 
@@ -100,7 +100,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 // @desc        Update a user
 // @route       PUT /api/users/profile
-// @access      Private
+// @access      Private / Admin
 const updateUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id)
 
@@ -150,7 +150,18 @@ const deleteUser = asyncHandler(async (req, res) => {
 		res.json({ message: 'User deleted' })
 	} else {
 		res.status(404)
-		res.send('User not found')
+		throw new Error('User not found')
+	}
+})
+
+const getUserById = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id)
+
+	if (user) {
+		res.json(user)
+	} else {
+		res.status(404)
+		throw new Error('User not found')
 	}
 })
 
@@ -158,16 +169,23 @@ const adminEditUser = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.params.id)
 
 	if (user) {
-		const { name, email } = req.body
+		const { name, email, isAdmin } = req.body
 
 		user.name = name || user.name
 		user.email = email || user.email
+		user.isAdmin = isAdmin
 
-		user.save()
-		res.json(user)
+		const updatedUser = await user.save()
+
+		res.json({
+			_id: updatedUser._id,
+			name: updatedUser.name,
+			email: updatedUser.email,
+			isAdmin: updatedUser.isAdmin,
+		})
 	} else {
 		res.status(404)
-		res.send('User not found')
+		throw new Error('User not found')
 	}
 })
 
@@ -178,5 +196,6 @@ export {
 	updateUserProfile,
 	getUsers,
 	deleteUser,
+	getUserById,
 	adminEditUser,
 }
