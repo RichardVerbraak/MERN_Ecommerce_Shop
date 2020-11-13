@@ -31,7 +31,29 @@ const getProductbyID = asyncHandler(async (req, res) => {
 // @desc        Create a product (Admin Only)
 // @route       POST /api/products/
 // @access      Private
-const createProduct = asyncHandler(async (req, res) => {})
+const createProduct = asyncHandler(async (req, res) => {
+	const { name, price, brand, category } = req.body
+
+	const newProduct = {}
+
+	if (name) newProduct.name = name
+	if (price) newProduct.price = price
+	if (brand) newProduct.brand = brand
+	if (category) newProduct.category = category
+
+	console.log(newProduct)
+	if (newProduct) {
+		await Product.saas({
+			name,
+			price,
+			brand,
+			category,
+		})
+	} else {
+		res.status(500)
+		throw new Error('No new fields')
+	}
+})
 
 // @desc        Delete a product (Admin Only)
 // @route       DELETE /api/products/:id
@@ -56,6 +78,14 @@ const editProduct = asyncHandler(async (req, res) => {
 	const product = await Product.findById(req.params.id)
 
 	if (product) {
+		product.name = req.body.name || product.name
+		product.price = req.body.price || product.price
+		product.category = req.body.category || product.category
+		product.brand = req.body.brand || product.brand
+
+		await product.save()
+
+		res.json(product)
 	} else {
 		res.status(404)
 		throw new Error('Product not found')
