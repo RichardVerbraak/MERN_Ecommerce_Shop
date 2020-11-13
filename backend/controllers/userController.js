@@ -100,7 +100,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 // @desc        Update a user
 // @route       PUT /api/users/profile
-// @access      Private / Admin
+// @access      Private
 const updateUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id)
 
@@ -154,6 +154,9 @@ const deleteUser = asyncHandler(async (req, res) => {
 	}
 })
 
+// @desc       	Get a user (Admin Only)
+// @route       GET /api/users/:id
+// @access      Private
 const getUserById = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.params.id)
 
@@ -165,6 +168,9 @@ const getUserById = asyncHandler(async (req, res) => {
 	}
 })
 
+// @desc       	Edit a user (Admin Only)
+// @route       DELETE /api/users/:id
+// @access      Private
 const adminEditUser = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.params.id)
 
