@@ -50,8 +50,8 @@ const createProduct = asyncHandler(async (req, res) => {
 		if (newProduct) {
 			res.json(newProduct)
 		} else {
-			res.status(400)
-			throw new Error('No new fields')
+			res.status(500)
+			throw new Error('Missing fields')
 		}
 	} else {
 		res.status(401)

@@ -59,7 +59,7 @@ export const productDetailReducer = (
 	}
 }
 
-export const productCreateReducer = (state = {}, action) => {
+export const productCreateReducer = (state = { product: {} }, action) => {
 	switch (action.type) {
 		case 'PRODUCT_CREATE_REQUEST':
 			return {
@@ -69,6 +69,7 @@ export const productCreateReducer = (state = {}, action) => {
 			return {
 				loading: false,
 				success: true,
+				product: action.payload,
 			}
 		case 'PRODUCT_CREATE_FAIL':
 			return {
