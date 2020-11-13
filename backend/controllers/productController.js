@@ -32,7 +32,15 @@ const getProductbyID = asyncHandler(async (req, res) => {
 // @route       POST /api/products/
 // @access      Private
 const createProduct = asyncHandler(async (req, res) => {
-	const { name, price, description, image, brand, category } = req.body
+	const {
+		name,
+		price,
+		description,
+		image,
+		brand,
+		category,
+		countInStock,
+	} = req.body
 
 	const productExists = await Product.findOne({ name })
 
@@ -45,6 +53,7 @@ const createProduct = asyncHandler(async (req, res) => {
 			image,
 			brand,
 			category,
+			countInStock,
 		})
 
 		if (newProduct) {
