@@ -54,6 +54,8 @@ const ProductListScreen = ({ history, match }) => {
 					</Button>
 				</Col>
 			</Row>
+			{loadingDelete && <Loader />}
+			{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 			{loading ? (
 				<Loader />
 			) : error ? (
