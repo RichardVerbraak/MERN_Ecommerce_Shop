@@ -81,9 +81,43 @@ export const getProductDetails = (id) => {
 	}
 }
 
+export const createProduct = (product) => {
+	return async (dispatch, getState) => {
+		try {
+			dispatch({
+				type: 'PRODUCT_CREATE_REQUEST',
+			})
+
+			const {
+				userLogin: { userInfo },
+			} = getState()
+
+			const config = {
+				headers: {
+					Authorization: `Bearer ${userInfo.token}`,
+				},
+			}
+
+			const { data } = await axios.post(`/api/products`, product, config)
+
+			dispatch({
+				type: 'PRODUCT_CREATE_SUCCESS',
+				payload: data,
+			})
+		} catch (error) {
+			dispatch({
+				type: 'PRODUCT_CREATE_FAIL',
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			})
+		}
+	}
+}
+
 export const deleteProduct = (id) => {
 	return async (dispatch, getState) => {
-		console.log(id)
 		try {
 			dispatch({
 				type: 'PRODUCT_DELETE_REQUEST',
