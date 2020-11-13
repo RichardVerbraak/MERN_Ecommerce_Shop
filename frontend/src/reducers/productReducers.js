@@ -101,3 +101,25 @@ export const productDeleteReducer = (state = {}, action) => {
 			return state
 	}
 }
+
+export const productEditReducer = (state = { product: {} }, action) => {
+	switch (action.type) {
+		case 'PRODUCT_EDIT_REQUEST':
+			return {
+				loading: true,
+			}
+		case 'PRODUCT_EDIT_SUCCESS':
+			return {
+				loading: false,
+				success: true,
+				product: action.payload,
+			}
+		case 'PRODUCT_EDIT_FAIL':
+			return {
+				loading: false,
+				error: action.payload,
+			}
+		default:
+			return state
+	}
+}

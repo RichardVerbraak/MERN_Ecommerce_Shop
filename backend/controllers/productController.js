@@ -96,9 +96,9 @@ const editProduct = asyncHandler(async (req, res) => {
 		product.category = req.body.category || product.category
 		product.brand = req.body.brand || product.brand
 
-		await product.save()
+		const updatedProduct = await product.save()
 
-		res.json(product)
+		res.json(updatedProduct)
 	} else {
 		res.status(404)
 		throw new Error('Product not found')

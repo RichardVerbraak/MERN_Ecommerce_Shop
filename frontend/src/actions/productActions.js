@@ -149,3 +149,37 @@ export const deleteProduct = (id) => {
 		}
 	}
 }
+
+export const editProduct = (id, product) => {
+	return async (dispatch, getState) => {
+		try {
+			dispatch({
+				type: 'PRODUCT_EDIT_REQUEST',
+			})
+
+			const {
+				userLogin: { userInfo },
+			} = getState()
+
+			const config = {
+				headers: {
+					Authorization: `Bearer ${userInfo.token}`,
+				},
+			}
+
+			const { data } = await axios.put(`/api/products/${id}`, product, config)
+
+			dispatch({
+				type: 'PRODUCT_EDIT_SUCCESS',
+			})
+		} catch (error) {
+			dispatch({
+				type: 'PRODUCT_EDIT_FAIL',
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			})
+		}
+	}
+}
