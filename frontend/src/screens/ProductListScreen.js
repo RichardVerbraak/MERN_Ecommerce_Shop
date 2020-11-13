@@ -4,11 +4,9 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getProducts } from '../actions/productActions'
+import { getProducts, deleteProduct } from '../actions/productActions'
 
 const ProductListScreen = ({ history, match }) => {
-	const productID = match.params.id
-
 	const dispatch = useDispatch()
 
 	const productList = useSelector((state) => {
@@ -21,21 +19,26 @@ const ProductListScreen = ({ history, match }) => {
 	})
 	const { userInfo } = userLogin
 
+	const productDelete = useSelector((state) => {
+		return state.productDelete
+	})
+	const { loading: loadingDelete, error: errorDelete, success } = productDelete
+
 	useEffect(() => {
 		if (userInfo && userInfo.isAdmin) {
 			dispatch(getProducts())
 		} else {
 			history.push('/login')
 		}
-	}, [dispatch, history])
+	}, [dispatch, history, userInfo, success])
 
-	const createProduct = () => {
+	const createProductHandler = () => {
 		console.log('create')
 	}
 
 	const deleteHandler = (id) => {
 		if (window.confirm('Are you sure?')) {
-			// Delete products
+			dispatch(deleteProduct(id))
 		}
 	}
 
@@ -46,7 +49,7 @@ const ProductListScreen = ({ history, match }) => {
 					<h1>Products</h1>
 				</Col>
 				<Col className='text-right'>
-					<Button className='my-3' onClick={createProduct}>
+					<Button className='my-3' onClick={createProductHandler}>
 						<i className='fas fa-plus'></i> Create Product
 					</Button>
 				</Col>

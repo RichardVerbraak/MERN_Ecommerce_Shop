@@ -28,8 +28,44 @@ const getProductbyID = asyncHandler(async (req, res) => {
 	}
 })
 
-const editProduct = asyncHandler(async (req, res) => {
+// @desc        Create a product (Admin Only)
+// @route       POST /api/products/
+// @access      Private
+const createProduct = asyncHandler(async (req, res) => {})
+
+// @desc        Delete a product (Admin Only)
+// @route       DELETE /api/products/:id
+// @access      Private
+const deleteProduct = asyncHandler(async (req, res) => {
 	const product = await Product.findById(req.params.id)
+
+	if (product) {
+		await product.remove()
+
+		res.json({ message: 'Product deleted' })
+	} else {
+		res.status(404)
+		throw new Error('Product not found')
+	}
 })
 
-export { getProducts, getProductbyID }
+// @desc        Edit a product (Admin Only)
+// @route       PUT /api/products/:id
+// @access      Private
+const editProduct = asyncHandler(async (req, res) => {
+	const product = await Product.findById(req.params.id)
+
+	if (product) {
+	} else {
+		res.status(404)
+		throw new Error('Product not found')
+	}
+})
+
+export {
+	getProducts,
+	getProductbyID,
+	createProduct,
+	deleteProduct,
+	editProduct,
+}
