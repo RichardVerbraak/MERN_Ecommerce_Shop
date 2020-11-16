@@ -51,7 +51,7 @@ const ProductListScreen = ({ history, match }) => {
 		} else {
 			dispatch(getProducts())
 		}
-	}, [dispatch, history, userInfo, success, successCreate])
+	}, [dispatch, history, userInfo, success, successCreate, createdProduct._id])
 
 	const createProductHandler = () => {
 		dispatch(createProduct())

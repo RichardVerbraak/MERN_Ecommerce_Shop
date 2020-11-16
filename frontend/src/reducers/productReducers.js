@@ -32,7 +32,7 @@ export const productListReducer = (state = initialProductState, action) => {
 const initialProductDetailState = {
 	loading: null,
 	error: null,
-	details: {},
+	product: {},
 }
 
 export const productDetailReducer = (
@@ -47,7 +47,7 @@ export const productDetailReducer = (
 		case 'PRODUCT_DETAIL_SUCCESS':
 			return {
 				loading: false,
-				details: action.payload,
+				product: action.payload,
 			}
 		case 'PRODUCT_DETAIL_FAIL':
 			return {

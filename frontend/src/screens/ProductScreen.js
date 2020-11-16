@@ -17,7 +17,7 @@ const ProductScreen = ({ match, history }) => {
 		return state.productDetails
 	})
 
-	const { loading, error, details } = productDetails
+	const { loading, error, product } = productDetails
 
 	// Pull id from URL and search for that product
 	useEffect(() => {
@@ -41,22 +41,22 @@ const ProductScreen = ({ match, history }) => {
 			) : (
 				<Row>
 					<Col md={6}>
-						<Image src={details.image} alt={details.name} fluid></Image>
+						<Image src={product.image} alt={product.name} fluid></Image>
 					</Col>
 					<Col md={3}>
 						<ListGroup variant='flush'>
 							<ListGroup.Item>
-								<h3>{details.name}</h3>
+								<h3>{product.name}</h3>
 							</ListGroup.Item>
 							<ListGroup.Item>
 								<Rating
-									value={details.rating}
-									text={`${details.numReviews} reviews`}
+									value={product.rating}
+									text={`${product.numReviews} reviews`}
 								/>
 							</ListGroup.Item>
-							<ListGroup.Item>Price: ${details.price}</ListGroup.Item>
+							<ListGroup.Item>Price: ${product.price}</ListGroup.Item>
 							<ListGroup.Item>
-								Description: {details.description}
+								Description: {product.description}
 							</ListGroup.Item>
 						</ListGroup>
 					</Col>
@@ -67,7 +67,7 @@ const ProductScreen = ({ match, history }) => {
 									<Row>
 										<Col>Price:</Col>
 										<Col>
-											<strong>${details.price}</strong>
+											<strong>${product.price}</strong>
 										</Col>
 									</Row>
 								</ListGroup.Item>
@@ -76,12 +76,12 @@ const ProductScreen = ({ match, history }) => {
 									<Row>
 										<Col>Status:</Col>
 										<Col>
-											{details.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
+											{product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
 										</Col>
 									</Row>
 								</ListGroup.Item>
 
-								{details.countInStock > 0 && (
+								{product.countInStock > 0 && (
 									<ListGroup.Item>
 										<Row>
 											<Col>Qty</Col>
@@ -93,7 +93,7 @@ const ProductScreen = ({ match, history }) => {
 														setQty(e.target.value)
 													}}
 												>
-													{[...Array(details.countInStock).keys()].map((x) => (
+													{[...Array(product.countInStock).keys()].map((x) => (
 														<option key={x + 1} value={x + 1}>
 															{x + 1}
 														</option>
@@ -109,7 +109,7 @@ const ProductScreen = ({ match, history }) => {
 										onClick={addToCart}
 										className='btn-block'
 										type='button'
-										disabled={details.countInStock === 0}
+										disabled={product.countInStock === 0}
 									>
 										Add to cart
 									</Button>
