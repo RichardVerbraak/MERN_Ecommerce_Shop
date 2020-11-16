@@ -54,6 +54,10 @@ export const productDetailReducer = (
 				loading: false,
 				error: action.payload,
 			}
+		case 'PRODUCT_DETAIL_RESET':
+			return {
+				product: {},
+			}
 		default:
 			return state
 	}
@@ -122,6 +126,10 @@ export const productEditReducer = (state = { product: {} }, action) => {
 			return {
 				loading: false,
 				error: action.payload,
+			}
+		case 'PRODUCT_EDIT_RESET':
+			return {
+				product: {},
 			}
 		default:
 			return state

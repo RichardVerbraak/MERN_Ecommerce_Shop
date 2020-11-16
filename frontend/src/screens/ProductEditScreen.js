@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
-import { getProductDetails } from '../actions/productActions'
+import { editProduct, getProductDetails } from '../actions/productActions'
 
 const ProductEditScreen = ({ match, history }) => {
 	const productID = match.params.id
@@ -28,25 +28,54 @@ const ProductEditScreen = ({ match, history }) => {
 	const productEdit = useSelector((state) => {
 		return state.productEdit
 	})
-	const { loading: loadingEdit, error: errorEdit, success } = productEdit
+	const {
+		loading: loadingEdit,
+		error: errorEdit,
+		success: successUpdate,
+	} = productEdit
 
+	// Gets details twice, bug?
 	useEffect(() => {
-		if (!product.name || product._id !== productID) {
-			dispatch(getProductDetails(productID))
+		if (successUpdate) {
+			dispatch({
+				type: 'PRODUCT_EDIT_RESET',
+			})
+			dispatch({
+				type: 'PRODUCT_DETAIL_RESET',
+			})
+			history.push('/admin/productList')
 		} else {
-			setName(product.name)
-			setPrice(product.price)
-			setDescription(product.description)
-			setImage(product.image)
-			setBrand(product.brand)
-			setCategory(product.category)
-			setCountInStock(product.countInStock)
+			if (!product || !product.name || product._id !== productID) {
+				dispatch(getProductDetails(productID))
+			} else {
+				setName(product.name)
+				setPrice(product.price)
+				setDescription(product.description)
+				setImage(product.image)
+				setBrand(product.brand)
+				setCategory(product.category)
+				setCountInStock(product.countInStock)
+			}
 		}
-	}, [dispatch, product, productID, success, history])
+	}, [dispatch, product, productID, history, successUpdate])
 
 	const submitHandler = (e) => {
 		e.preventDefault()
-		// Update product
+		dispatch(
+			editProduct(productID, {
+				_id: productID,
+				name,
+				price,
+				description,
+				image,
+				brand,
+				category,
+				countInStock,
+			})
+		)
+		dispatch({
+			type: 'PRODUCT_EDIT_RESET',
+		})
 	}
 
 	return (
@@ -54,6 +83,8 @@ const ProductEditScreen = ({ match, history }) => {
 			<Link to='/admin/productList' className='btn btn-light my-3'>
 				Go Back
 			</Link>
+			{loadingEdit && <Loader />}
+			{errorEdit && <Message variant='danger'>{errorEdit}</Message>}
 			<FormContainer>
 				<h1>Edit Product</h1>
 				{loadingEdit && <Loader />}
