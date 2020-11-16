@@ -76,6 +76,10 @@ export const productCreateReducer = (state = { product: {} }, action) => {
 				loading: false,
 				error: action.payload,
 			}
+		case 'PRODUCT_CREATE_RESET':
+			return {
+				product: {},
+			}
 		default:
 			return state
 	}

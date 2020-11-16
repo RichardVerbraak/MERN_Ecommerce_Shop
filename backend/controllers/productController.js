@@ -32,39 +32,25 @@ const getProductbyID = asyncHandler(async (req, res) => {
 // @route       POST /api/products/
 // @access      Private
 const createProduct = asyncHandler(async (req, res) => {
-	const {
-		name,
-		price,
-		description,
-		image,
-		brand,
-		category,
-		countInStock,
-	} = req.body
+	const product = new Product({
+		name: 'Sample name',
+		price: 0,
+		user: req.user._id,
+		image: '/images/sample.jpg',
+		brand: 'Sample brand',
+		category: 'Sample category',
+		countInStock: 0,
+		numReviews: 0,
+		description: 'Sample description',
+	})
 
-	const productExists = await Product.findOne({ name })
+	const createdProduct = await product.save()
 
-	if (!productExists) {
-		const newProduct = await Product.create({
-			user: req.user._id,
-			name,
-			price,
-			description,
-			image,
-			brand,
-			category,
-			countInStock,
-		})
-
-		if (newProduct) {
-			res.json(newProduct)
-		} else {
-			res.status(500)
-			throw new Error('Missing fields')
-		}
+	if (createdProduct) {
+		res.status(201).json(createdProduct)
 	} else {
-		res.status(401)
-		throw new Error('Product with this name already exists')
+		res.status(500)
+		throw new Error('Server error')
 	}
 })
 
