@@ -90,11 +90,24 @@ const deleteProduct = asyncHandler(async (req, res) => {
 const editProduct = asyncHandler(async (req, res) => {
 	const product = await Product.findById(req.params.id)
 
+	const {
+		name,
+		price,
+		description,
+		image,
+		brand,
+		category,
+		countInStock,
+	} = req.body
+
 	if (product) {
-		product.name = req.body.name || product.name
-		product.price = req.body.price || product.price
-		product.category = req.body.category || product.category
-		product.brand = req.body.brand || product.brand
+		product.name = name || product.name
+		product.price = price || product.price
+		product.description || description || product.description
+		product.image || image || product.image
+		product.brand = brand || product.brand
+		product.category = category || product.category
+		product.countInStock || countInStock || product.countInStock
 
 		const updatedProduct = await product.save()
 

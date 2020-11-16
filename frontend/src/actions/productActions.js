@@ -171,6 +171,7 @@ export const editProduct = (id, product) => {
 
 			dispatch({
 				type: 'PRODUCT_EDIT_SUCCESS',
+				payload: data,
 			})
 		} catch (error) {
 			dispatch({
