@@ -90,10 +90,10 @@ const editProduct = asyncHandler(async (req, res) => {
 		product.name = name || product.name
 		product.price = price || product.price
 		product.description || description || product.description
-		product.image || image || product.image
+		product.image = image || product.image
 		product.brand = brand || product.brand
 		product.category = category || product.category
-		product.countInStock || countInStock || product.countInStock
+		product.countInStock = countInStock || product.countInStock
 
 		const updatedProduct = await product.save()
 

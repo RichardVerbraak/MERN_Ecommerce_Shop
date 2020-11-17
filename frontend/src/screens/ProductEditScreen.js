@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
@@ -17,6 +18,7 @@ const ProductEditScreen = ({ match, history }) => {
 	const [brand, setBrand] = useState('')
 	const [category, setCategory] = useState('')
 	const [countInStock, setCountInStock] = useState(0)
+	const [uploading, setUploading] = useState(false)
 
 	const dispatch = useDispatch()
 
@@ -33,6 +35,29 @@ const ProductEditScreen = ({ match, history }) => {
 		error: errorEdit,
 		success: successUpdate,
 	} = productEdit
+
+	const uploadFile = async (e) => {
+		const file = e.target.files[0]
+		const formData = new FormData()
+		formData.append('image', file)
+		setUploading(true)
+
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			}
+
+			const { data } = await axios.post('/api/upload', formData, config)
+
+			setImage(data)
+			setUploading(false)
+		} catch (error) {
+			console.error(error)
+			setUploading(false)
+		}
+	}
 
 	// Gets details twice, bug?
 	useEffect(() => {
@@ -62,7 +87,7 @@ const ProductEditScreen = ({ match, history }) => {
 	const submitHandler = (e) => {
 		e.preventDefault()
 		dispatch(
-			editProduct(productID, {
+			editProduct({
 				_id: productID,
 				name,
 				price,
@@ -141,6 +166,13 @@ const ProductEditScreen = ({ match, history }) => {
 									setImage(e.target.value)
 								}}
 							></Form.Control>
+							<Form.File
+								id='image-file'
+								label='Choose File'
+								custom
+								onChange={uploadFile}
+							></Form.File>
+							{uploading && <Loader />}
 						</Form.Group>
 
 						<Form.Group controlId='brand'>
@@ -171,7 +203,7 @@ const ProductEditScreen = ({ match, history }) => {
 							<Form.Label>Count in stock</Form.Label>
 							<Form.Control
 								type='number'
-								placeholder='Enter countInStock'
+								placeholder='Enter count in stock'
 								value={countInStock}
 								onChange={(e) => {
 									setCountInStock(e.target.value)

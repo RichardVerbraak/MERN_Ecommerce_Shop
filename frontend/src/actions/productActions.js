@@ -150,7 +150,7 @@ export const deleteProduct = (id) => {
 	}
 }
 
-export const editProduct = (id, product) => {
+export const editProduct = (product) => {
 	return async (dispatch, getState) => {
 		try {
 			dispatch({
@@ -168,7 +168,11 @@ export const editProduct = (id, product) => {
 				},
 			}
 
-			const { data } = await axios.put(`/api/products/${id}`, product, config)
+			const { data } = await axios.put(
+				`/api/products/${product._id}`,
+				product,
+				config
+			)
 
 			dispatch({
 				type: 'PRODUCT_EDIT_SUCCESS',
