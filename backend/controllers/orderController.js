@@ -98,7 +98,8 @@ const getUsersOrders = asyncHandler(async (req, res) => {
 // @route       GET /api/orders/
 // @access      Private
 const getAllOrders = asyncHandler(async (req, res) => {
-	const orders = await Order.find({})
+	// Also get the user associated with the order
+	const orders = await Order.find({}).populate('user', 'id name')
 
 	if (orders) {
 		res.json(orders)
