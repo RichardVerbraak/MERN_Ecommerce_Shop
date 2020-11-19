@@ -111,7 +111,7 @@ export const payOrder = (id, paymentResult) => {
 	}
 }
 
-export const orderReset = () => {
+export const orderPayReset = () => {
 	return (dispatch) => {
 		dispatch({
 			type: 'ORDER_PAY_RESET',

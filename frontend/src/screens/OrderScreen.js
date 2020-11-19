@@ -6,7 +6,11 @@ import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getOrderDetails, payOrder, orderReset } from '../actions/orderActions'
+import {
+	getOrderDetails,
+	payOrder,
+	orderPayReset,
+} from '../actions/orderActions'
 
 const OrderScreen = ({ match }) => {
 	const [sdkReady, setSdkReady] = useState(false)
@@ -59,7 +63,7 @@ const OrderScreen = ({ match }) => {
 
 		// Double check to see if there is an order and if it matches the one in the URL
 		if (!order || order._id !== orderID || successPay) {
-			dispatch(orderReset())
+			dispatch(orderPayReset())
 			dispatch(getOrderDetails(orderID))
 			// If it isn't paid it will append the paypal script to the page, if it is it will set the state to true (script ready)
 		} else if (!order.isPaid) {
