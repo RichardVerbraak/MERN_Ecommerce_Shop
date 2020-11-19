@@ -137,7 +137,8 @@ export const markOrderDelivered = (id) => {
 				type: 'ORDER_DELIVER_REQUEST',
 			})
 
-			const { data } = await axios.put(`/api/orders/${id}/deliver`, config)
+			// Empty object because were not sending data
+			const { data } = await axios.put(`/api/orders/${id}/deliver`, {}, config)
 
 			dispatch({
 				type: 'ORDER_DELIVER_SUCCESS',

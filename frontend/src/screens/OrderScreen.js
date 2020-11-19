@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import axios from 'axios'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { Link } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -11,12 +11,18 @@ import {
 	payOrder,
 	orderPayReset,
 	orderDeliverReset,
+	markOrderDelivered,
 } from '../actions/orderActions'
 
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, history }) => {
 	const [sdkReady, setSdkReady] = useState(false)
 
 	const orderID = match.params.id
+
+	const userLoginReducer = useSelector((state) => {
+		return state.userLogin
+	})
+	const { userInfo } = userLoginReducer
 
 	const orderDetailsReducer = useSelector((state) => {
 		return state.orderDetails
@@ -39,6 +45,10 @@ const OrderScreen = ({ match }) => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
+		if (!userInfo) {
+			history.push('/login')
+		}
+
 		const addPayPalScript = async () => {
 			const { data: payPalID } = await axios.get('/api/config/paypal')
 			const script = document.createElement('script')
@@ -63,6 +73,7 @@ const OrderScreen = ({ match }) => {
 		// 	script.async = true
 		// 	script.src = `https://paypal.com/sdk/js?client-id=${payPalID}`
 
+		// 	// onload is executed the when the page has been fully loaded
 		// 	script.onload = () => {
 		// 		setSdkReady(true)
 		// 	}
@@ -70,6 +81,7 @@ const OrderScreen = ({ match }) => {
 		// })()
 
 		// Double check to see if there is an order and if it matches the one in the URL
+		// Reset the state so the screen can get the up to date order details
 		if (!order || order._id !== orderID || successPay || successDeliver) {
 			dispatch(orderPayReset())
 			dispatch(orderDeliverReset())
@@ -82,12 +94,15 @@ const OrderScreen = ({ match }) => {
 				setSdkReady(true)
 			}
 		}
-	}, [dispatch, order, orderID, successPay])
+	}, [dispatch, order, orderID, successPay, successDeliver, userInfo])
 
 	// When the payment goes through from the paypal button package, this will fire off with the result of the payment and the orderID itself
 	const successPaymentHandler = (paymentResult) => {
-		console.log(paymentResult)
 		dispatch(payOrder(orderID, paymentResult))
+	}
+
+	const markDelivered = () => {
+		dispatch(markOrderDelivered(orderID))
 	}
 
 	return (
@@ -228,6 +243,21 @@ const OrderScreen = ({ match }) => {
 											)}
 										</ListGroup.Item>
 									)}
+									{loadingDeliver && <Loader />}
+									{userInfo &&
+										userInfo.isAdmin &&
+										order.isPaid &&
+										!order.isDelivered && (
+											<ListGroup.Item>
+												<Button
+													type='button'
+													className='btn btn-block'
+													onClick={markDelivered}
+												>
+													Mark as delivered
+												</Button>
+											</ListGroup.Item>
+										)}
 								</ListGroup>
 							</Card>
 						</Col>
