@@ -10,6 +10,7 @@ import {
 	getOrderDetails,
 	payOrder,
 	orderPayReset,
+	orderDeliverReset,
 } from '../actions/orderActions'
 
 const OrderScreen = ({ match }) => {
@@ -26,6 +27,14 @@ const OrderScreen = ({ match }) => {
 		return state.orderPay
 	})
 	const { loading: loadingPay, success: successPay } = orderPayReducer
+
+	const orderDeliverReducer = useSelector((state) => {
+		return state.orderDeliver
+	})
+	const {
+		loading: loadingDeliver,
+		success: successDeliver,
+	} = orderDeliverReducer
 
 	const dispatch = useDispatch()
 
@@ -54,7 +63,6 @@ const OrderScreen = ({ match }) => {
 		// 	script.async = true
 		// 	script.src = `https://paypal.com/sdk/js?client-id=${payPalID}`
 
-		// 	// onload is executed the when the page has been fully loaded
 		// 	script.onload = () => {
 		// 		setSdkReady(true)
 		// 	}
@@ -62,8 +70,9 @@ const OrderScreen = ({ match }) => {
 		// })()
 
 		// Double check to see if there is an order and if it matches the one in the URL
-		if (!order || order._id !== orderID || successPay) {
+		if (!order || order._id !== orderID || successPay || successDeliver) {
 			dispatch(orderPayReset())
+			dispatch(orderDeliverReset())
 			dispatch(getOrderDetails(orderID))
 			// If it isn't paid it will append the paypal script to the page, if it is it will set the state to true (script ready)
 		} else if (!order.isPaid) {

@@ -155,6 +155,14 @@ export const markOrderDelivered = (id) => {
 	}
 }
 
+export const orderDeliverReset = () => {
+	return (dispatch) => {
+		dispatch({
+			type: 'ORDER_DELIVER_RESET',
+		})
+	}
+}
+
 export const getUsersOrders = () => {
 	return async (dispatch, getState) => {
 		console.log('called')
