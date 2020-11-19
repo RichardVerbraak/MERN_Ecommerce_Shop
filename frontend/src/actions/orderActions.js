@@ -119,6 +119,42 @@ export const orderPayReset = () => {
 	}
 }
 
+export const markOrderDelivered = (id) => {
+	return async (dispatch, getState) => {
+		try {
+			const {
+				userLogin: { userInfo },
+			} = getState()
+
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${userInfo.token}`,
+				},
+			}
+
+			dispatch({
+				type: 'ORDER_DELIVER_REQUEST',
+			})
+
+			const { data } = await axios.put(`/api/orders/${id}/deliver`, config)
+
+			dispatch({
+				type: 'ORDER_DELIVER_SUCCESS',
+				payload: data,
+			})
+		} catch (error) {
+			dispatch({
+				type: 'ORDER_DELIVER_FAIL',
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			})
+		}
+	}
+}
+
 export const getUsersOrders = () => {
 	return async (dispatch, getState) => {
 		console.log('called')
