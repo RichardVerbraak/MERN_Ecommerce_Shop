@@ -22,13 +22,13 @@ router
 router.route('/myorders').get(protect, getUsersOrders)
 
 // Get order by ID
-// Update order to delivered (Admin)
-router
-	.route('/:id')
-	.get(protect, getOrder)
-	.put(protect, checkAdmin, markOrderDelivered)
+
+router.route('/:id').get(protect, getOrder)
 
 // Update order to isPaid
 router.route('/:id/pay').put(protect, updateOrderToPaid)
+
+// Update order to delivered (Admin)
+router.route('/:id/deliver').put(protect, checkAdmin, markOrderDelivered)
 
 export default router

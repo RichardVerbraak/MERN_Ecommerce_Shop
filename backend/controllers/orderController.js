@@ -79,17 +79,17 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 	}
 })
 
-// @desc       	Mark order delivered to true
-// @route       PUT /api/orders/:id/pay
+// @desc       	Mark order delivered to true (Admin Only)
+// @route       PUT /api/orders/:id/deliver
 // @access      Private
-const markOrderDelivered = asyncHandler(async (id) => {
-	const order = Order.findById(id)
+const markOrderDelivered = asyncHandler(async (req, res) => {
+	const order = await Order.findById(req.params.id)
 
 	if (order) {
 		order.isDelivered = true
-		order.isDeliveredAt = Date.now()
+		order.deliveredAt = Date.now()
 
-		const updatedOrder = await (await order).save()
+		const updatedOrder = await order.save()
 		res.json(updatedOrder)
 	} else {
 		res.status(404)
