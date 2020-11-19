@@ -1,5 +1,7 @@
 import path from 'path'
 import express from 'express'
+import protect from '../middleware/authMiddleware.js'
+import checkAdmin from '../middleware/adminMiddleware.js'
 import multer from 'multer'
 const router = express.Router()
 
@@ -39,7 +41,7 @@ const upload = multer({
 
 // Send back the request we get back from uploading (the file path that is now in the uploads folder)
 // Had to replace the backslash with a front slash due to weird bug causing the path to look like: /images\sample
-router.post('/', upload.single('image'), (req, res) => {
+router.post('/', protect, checkAdmin, upload.single('image'), (req, res) => {
 	res.send(`/${req.file.path.replace('\\', '/')}`)
 })
 

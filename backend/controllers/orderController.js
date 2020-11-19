@@ -90,8 +90,28 @@ const getUsersOrders = asyncHandler(async (req, res) => {
 		res.json(orders)
 	} else {
 		res.status(404)
-		throw new Error('Orders not found')
+		throw new Error('No orders found')
 	}
 })
 
-export { addOrderItems, getOrder, updateOrderToPaid, getUsersOrders }
+// @desc       	Get all orders (Admin Only)
+// @route       GET /api/orders/
+// @access      Private
+const getAllOrders = asyncHandler(async (req, res) => {
+	const orders = await Order.find({})
+
+	if (orders) {
+		res.json(orders)
+	} else {
+		res.status(404)
+		throw new Error('No orders found')
+	}
+})
+
+export {
+	addOrderItems,
+	getOrder,
+	updateOrderToPaid,
+	getUsersOrders,
+	getAllOrders,
+}
