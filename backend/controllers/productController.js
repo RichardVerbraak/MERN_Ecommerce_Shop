@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler'
+import Order from '../models/orderModel.js'
 import Product from '../models/productModel.js'
 
 // Instead of having a try/catch in every route we use asyncHandler
@@ -104,10 +105,36 @@ const editProduct = asyncHandler(async (req, res) => {
 	}
 })
 
+// @desc        Add a review to a product
+// @route       POST /api/products/:id
+// @access      Private
+const createReview = asyncHandler(async (req, res) => {
+	const product = await Product.findById(req.params.id)
+
+	const { name, rating, comment } = req.body
+
+	if (product) {
+		product.reviews = {
+			user: req.user,
+			name,
+			rating,
+			comment,
+		}
+
+		const updatedProduct = await product.save()
+
+		res.json(updatedProduct)
+	} else {
+		res.status(404)
+		throw new Error('Product not found')
+	}
+})
+
 export {
 	getProducts,
 	getProductbyID,
 	createProduct,
 	deleteProduct,
 	editProduct,
+	createReview,
 }
