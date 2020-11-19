@@ -36,6 +36,8 @@ const ProductEditScreen = ({ match, history }) => {
 		success: successUpdate,
 	} = productEdit
 
+	// FormData is an object with a set of key/value pairs that is in the same format as a submit method on a form
+	// Key would be image and the file the value
 	const uploadFile = async (e) => {
 		const file = e.target.files[0]
 		const formData = new FormData()

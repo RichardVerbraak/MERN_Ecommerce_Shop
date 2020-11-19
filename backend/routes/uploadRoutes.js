@@ -3,6 +3,7 @@ import express from 'express'
 import multer from 'multer'
 const router = express.Router()
 
+// Stores the file in the uploads folder in the root with the file name + date and the extension
 const storage = multer.diskStorage({
 	destination(req, file, cb) {
 		cb(null, 'uploads/')
@@ -15,6 +16,7 @@ const storage = multer.diskStorage({
 	},
 })
 
+// Checks for image types
 function checkFileType(file, cb) {
 	const filetypes = /jpg|jpeg|png/
 	const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
@@ -27,6 +29,7 @@ function checkFileType(file, cb) {
 	}
 }
 
+// Takes in the image to get checked and then stored
 const upload = multer({
 	storage,
 	fileFilter: function (req, file, cb) {
@@ -34,8 +37,9 @@ const upload = multer({
 	},
 })
 
+// Send back the request we get back from uploading (the file path that is now in the uploads folder)
+// Had to replace the backslash with a front slash due to weird bug causing the path to look like: /images\sample
 router.post('/', upload.single('image'), (req, res) => {
-	console.log(req.file.path.replace('\\', '/'))
 	res.send(`/${req.file.path.replace('\\', '/')}`)
 })
 
