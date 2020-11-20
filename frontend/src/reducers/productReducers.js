@@ -32,7 +32,7 @@ export const productListReducer = (state = initialProductState, action) => {
 const initialProductDetailState = {
 	loading: null,
 	error: null,
-	product: {},
+	product: { reviews: [] },
 }
 
 export const productDetailReducer = (
@@ -136,7 +136,7 @@ export const productEditReducer = (state = { product: {} }, action) => {
 	}
 }
 
-export const productCreateReviewReducer = (state = { review: {} }, action) => {
+export const productCreateReviewReducer = (state = {}, action) => {
 	switch (action.type) {
 		case 'PRODUCT_CREATE_REVIEW_REQUEST':
 			return {
@@ -146,7 +146,6 @@ export const productCreateReviewReducer = (state = { review: {} }, action) => {
 			return {
 				loading: false,
 				success: true,
-				review: action.payload,
 			}
 		case 'PRODUCT_CREATE_REVIEW_FAIL':
 			return {
@@ -154,9 +153,7 @@ export const productCreateReviewReducer = (state = { review: {} }, action) => {
 				error: action.payload,
 			}
 		case 'PRODUCT_CREATE_REVIEW_RESET':
-			return {
-				review: {},
-			}
+			return {}
 		default:
 			return state
 	}

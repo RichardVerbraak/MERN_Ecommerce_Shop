@@ -106,7 +106,7 @@ const editProduct = asyncHandler(async (req, res) => {
 })
 
 // @desc        Add a review to a product
-// @route       POST /api/products/:id
+// @route       POST /api/products/:id/reviews
 // @access      Private
 const createReview = asyncHandler(async (req, res) => {
 	const product = await Product.findById(req.params.id)

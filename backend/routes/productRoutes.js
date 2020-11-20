@@ -18,8 +18,10 @@ router.route('/').get(getProducts).post(protect, checkAdmin, createProduct)
 router
 	.route('/:id')
 	.get(getProductbyID)
-	.post(protect, createReview)
+
 	.delete(protect, checkAdmin, deleteProduct)
 	.put(protect, checkAdmin, editProduct)
+
+router.route('/:id/reviews').post(protect, createReview)
 
 export default router

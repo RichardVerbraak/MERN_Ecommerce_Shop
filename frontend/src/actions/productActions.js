@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { bindActionCreators } from 'redux'
 
 // Thunk is a programming concept where a function is used to delay the evaluation/calculation of an operation
 
@@ -190,7 +191,7 @@ export const editProduct = (product) => {
 	}
 }
 
-export const createReview = (review) => {
+export const createReview = (productID, review) => {
 	return async (dispatch, getState) => {
 		try {
 			dispatch({
@@ -209,14 +210,13 @@ export const createReview = (review) => {
 			}
 
 			const { data } = await axios.post(
-				`/api/products/${product._id}`,
+				`/api/products/${productID}/reviews`,
 				review,
 				config
 			)
 
 			dispatch({
 				type: 'PRODUCT_CREATE_REVIEW_SUCCESS',
-				payload: data,
 			})
 		} catch (error) {
 			dispatch({
