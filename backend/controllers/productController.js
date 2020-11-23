@@ -22,11 +22,13 @@ const getProducts = asyncHandler(async (req, res) => {
 		  }
 		: {}
 
-	// Number of products
+	// Number of products (all products or by the searchQuery)
 	const count = await Product.countDocuments({ ...searchQuery })
 
 	// Gets all products if there is no search (empty object finds all)
 	// Or finds the product that matches the products name to the regular expression
+	// Limits it to 2 per page
+	// Skip X products according to the amount of products per page and what page we are at (page 2 would be 2 x (2 - 1) = 2, so skip first 2 products)
 	const products = await Product.find({ ...searchQuery })
 		.limit(pageSize)
 		.skip(pageSize * (page - 1))

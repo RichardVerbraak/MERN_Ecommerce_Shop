@@ -11,6 +11,9 @@ import { getProducts } from '../actions/productActions'
 const HomeScreen = ({ match }) => {
 	const searchQuery = match.params.keyword
 
+	const pageNumber = match.params.pageNumber || 1
+	console.log(pageNumber)
+
 	const dispatch = useDispatch()
 	const productList = useSelector((state) => {
 		return state.productList
@@ -18,8 +21,8 @@ const HomeScreen = ({ match }) => {
 	const { loading, error, products } = productList
 
 	useEffect(() => {
-		dispatch(getProducts(searchQuery))
-	}, [dispatch, searchQuery])
+		dispatch(getProducts(searchQuery, pageNumber))
+	}, [dispatch, searchQuery, pageNumber])
 
 	return (
 		<Fragment>
