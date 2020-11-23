@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import Paginate from '../components/Paginate'
 
 import { getProducts } from '../actions/productActions'
 
@@ -12,13 +13,12 @@ const HomeScreen = ({ match }) => {
 	const searchQuery = match.params.keyword
 
 	const pageNumber = match.params.pageNumber || 1
-	console.log(pageNumber)
 
 	const dispatch = useDispatch()
 	const productList = useSelector((state) => {
 		return state.productList
 	})
-	const { loading, error, products } = productList
+	const { loading, error, products, page, pages } = productList
 
 	useEffect(() => {
 		dispatch(getProducts(searchQuery, pageNumber))
@@ -32,15 +32,22 @@ const HomeScreen = ({ match }) => {
 			) : error ? (
 				<Message variant={'danger'}>{error}</Message>
 			) : (
-				<Row>
-					{products.map((product) => {
-						return (
-							<Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-								<Product product={product} />
-							</Col>
-						)
-					})}
-				</Row>
+				<Fragment>
+					<Row>
+						{products.map((product) => {
+							return (
+								<Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+									<Product product={product} />
+								</Col>
+							)
+						})}
+					</Row>
+					<Paginate
+						pages={pages}
+						page={page}
+						searchQuery={searchQuery ? searchQuery : ''}
+					/>
+				</Fragment>
 			)}
 		</Fragment>
 	)
