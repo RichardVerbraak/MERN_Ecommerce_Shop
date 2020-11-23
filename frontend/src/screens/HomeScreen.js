@@ -7,6 +7,7 @@ import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 
 import { getProducts } from '../actions/productActions'
+import ProductCarousel from '../components/ProductCarousel'
 
 // Alternative way with hooks instead of using wrapping in a connect function with mapStateToProps etc.
 const HomeScreen = ({ match }) => {
@@ -26,6 +27,7 @@ const HomeScreen = ({ match }) => {
 
 	return (
 		<Fragment>
+			{!searchQuery && <ProductCarousel />}
 			<h1>Latest Products</h1>
 			{loading ? (
 				<Loader />
