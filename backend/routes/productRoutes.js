@@ -8,12 +8,15 @@ import {
 	editProduct,
 	createProduct,
 	createReview,
+	getTopRatedProducts,
 } from '../controllers/productController.js'
 const router = express.Router()
 
 // Controllers perform logic based on a certain request, we moved these out of the folder just to clean it up
 
 router.route('/').get(getProducts).post(protect, checkAdmin, createProduct)
+
+router.get('/top', getTopRatedProducts)
 
 router
 	.route('/:id')

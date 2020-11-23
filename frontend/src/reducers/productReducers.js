@@ -160,3 +160,25 @@ export const productCreateReviewReducer = (state = {}, action) => {
 			return state
 	}
 }
+
+export const productTopRatedReducer = (state = {}, action) => {
+	switch (action.type) {
+		case 'PRODUCT_TOP_REQUEST':
+			return {
+				loading: true,
+			}
+		case 'PRODUCT_TOP_SUCCESS':
+			return {
+				loading: false,
+				products: action.payload,
+			}
+		case 'PRODUCT_TOP_FAIL':
+			return {
+				error: action.payload,
+				loading: false,
+			}
+
+		default:
+			return state
+	}
+}
