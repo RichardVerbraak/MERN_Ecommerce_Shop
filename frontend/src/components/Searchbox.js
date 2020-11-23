@@ -6,6 +6,8 @@ const Searchbox = ({ history }) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault()
+
+		// Trim whitespace
 		if (keyword.trim()) {
 			history.push(`/search/${keyword}`)
 		} else {
