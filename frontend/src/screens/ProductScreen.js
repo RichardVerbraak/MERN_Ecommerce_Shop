@@ -50,6 +50,7 @@ const ProductScreen = ({ match, history }) => {
 			})
 		}
 		dispatch(getProductDetails(productID))
+		// eslint-disable-next-line
 	}, [dispatch, match, successProductReview])
 
 	// Could also add to cart here imo

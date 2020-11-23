@@ -94,7 +94,7 @@ const OrderScreen = ({ match, history }) => {
 				setSdkReady(true)
 			}
 		}
-	}, [dispatch, order, orderID, successPay, successDeliver, userInfo])
+	}, [dispatch, order, orderID, successPay, successDeliver, userInfo, history])
 
 	// When the payment goes through from the paypal button package, this will fire off with the result of the payment and the orderID itself
 	const successPaymentHandler = (paymentResult) => {

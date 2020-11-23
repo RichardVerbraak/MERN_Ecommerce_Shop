@@ -51,6 +51,7 @@ const ProductListScreen = ({ history, match }) => {
 		} else {
 			dispatch(getProducts())
 		}
+		// eslint-disable-next-line
 	}, [dispatch, history, userInfo, success, successCreate])
 
 	const createProductHandler = () => {

@@ -9,6 +9,9 @@ import Product from '../models/productModel.js'
 // @route       GET /api/products
 // @access      Public
 const getProducts = asyncHandler(async (req, res) => {
+	const pageSize = 2
+	const page = Number(req.query.pageNumber) || 1
+
 	// If there is a query => try to match the name with the query and have it be case insensitive (options: 'i')
 	const searchQuery = req.query.search
 		? {
@@ -19,11 +22,17 @@ const getProducts = asyncHandler(async (req, res) => {
 		  }
 		: {}
 
+	// Number of products
+	const count = await Product.countDocuments({ ...searchQuery })
+
 	// Gets all products if there is no search (empty object finds all)
 	// Or finds the product that matches the products name to the regular expression
 	const products = await Product.find({ ...searchQuery })
+		.limit(pageSize)
+		.skip(pageSize * (page - 1))
 
-	res.json(products)
+	// Return how many pages there are
+	res.json({ products, page, pages: Math.ceil(count / pageSize) })
 })
 
 // @desc        Gets single product by ID
