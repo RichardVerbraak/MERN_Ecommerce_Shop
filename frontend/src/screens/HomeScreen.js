@@ -8,7 +8,9 @@ import Message from '../components/Message'
 import { getProducts } from '../actions/productActions'
 
 // Alternative way with hooks instead of using wrapping in a connect function with mapStateToProps etc.
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
+	const searchQuery = match.params.keyword
+
 	const dispatch = useDispatch()
 	const productList = useSelector((state) => {
 		return state.productList
@@ -16,8 +18,8 @@ const HomeScreen = () => {
 	const { loading, error, products } = productList
 
 	useEffect(() => {
-		dispatch(getProducts())
-	}, [dispatch])
+		dispatch(getProducts(searchQuery))
+	}, [dispatch, searchQuery])
 
 	return (
 		<Fragment>

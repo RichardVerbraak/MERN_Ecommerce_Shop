@@ -32,14 +32,14 @@ import { bindActionCreators } from 'redux'
 // 	}
 // }
 
-export const getProducts = () => {
+export const getProducts = (searchQuery = '') => {
 	return async (dispatch) => {
 		try {
 			dispatch({
 				type: 'PRODUCT_LIST_REQUEST',
 			})
 
-			const res = await axios.get('/api/products')
+			const res = await axios.get(`/api/products?search=${searchQuery}`)
 
 			dispatch({
 				type: 'PRODUCT_LIST_SUCCESS',

@@ -9,8 +9,19 @@ import Product from '../models/productModel.js'
 // @route       GET /api/products
 // @access      Public
 const getProducts = asyncHandler(async (req, res) => {
-	// Gets all products (Empty object just gets everything)
-	const products = await Product.find({})
+	// If there is a query => try to match the name with the query and have it be case insensitive (options: 'i')
+	const searchQuery = req.query.search
+		? {
+				name: {
+					$regex: req.query.search,
+					$options: 'i',
+				},
+		  }
+		: {}
+
+	// Gets all products if there is no search (empty object finds all)
+	// Or finds the product that matches the products name to the regular expression
+	const products = await Product.find({ ...searchQuery })
 
 	res.json(products)
 })
@@ -131,7 +142,7 @@ const createReview = asyncHandler(async (req, res) => {
 			product.numReviews = product.reviews.length
 
 			product.rating = product.reviews.reduce((acc, item) => {
-				return (item.rating + acc) / product.numReviews
+				return (item.rating + acc) / product.reviews.length
 			}, 0)
 
 			await product.save()
