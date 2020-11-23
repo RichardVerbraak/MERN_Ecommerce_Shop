@@ -38,6 +38,21 @@ app.get('/api/config/paypal', (req, res) => {
 const folder = path.resolve()
 app.use('/uploads', express.static(path.join(folder, '/uploads')))
 
+if (process.env.NODE_ENV === 'production') {
+	// Build static folder
+	app.use(express.static(path.join(folder, '/frontend/build')))
+
+	// Get anything that isnt any of the above routes (*)
+	// Send the index.html file
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(folder, 'frontend', 'build', 'index.html'))
+	})
+} else {
+	app.get('/', (req, res) => {
+		res.send('API is running....')
+	})
+}
+
 // This function will run when it can't match a route
 app.use(notFound)
 
